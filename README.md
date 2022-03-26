@@ -1,5 +1,5 @@
 # BudgetManagerApp
-CTSE Assignment 1 - As a budget recorder app user i need to be able to record my income and expenses and store them
+CTSE Assignment 1 - Budget recorder app
 
 Group ID - 2022_REG_31 
 -------------------------------------------------
