@@ -1,3 +1,6 @@
+import 'package:budget_recorder/screens/login.dart';
+import 'package:budget_recorder/screens/profile.dart';
+import 'package:budget_recorder/screens/register.dart';
 import 'package:budget_recorder/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Welcome();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "BRIEFTASCHE",
+      home: Welcome(),
+    );
   }
 }
