@@ -1,8 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Welcome extends StatelessWidget {
+class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
+
+  @override
+  State<Welcome> createState() => _WelcomeState();
+}
+
+class _WelcomeState extends State<Welcome> {
+  @override
+  initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      Navigator.of(context).pushReplacementNamed('/home');
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +28,8 @@ class Welcome extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
+        child: 
+        Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
@@ -23,45 +38,15 @@ class Welcome extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              textStyle: const TextStyle(
-                                fontSize: 20,
-                                fontFamily: "Sen",
-                                fontWeight: FontWeight.bold,
-                              ),
-                              primary: Colors.black,
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              'SIGN UP',
-                              style: TextStyle(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
                           SizedBox(
-                            height: 35,
+                            height: 80,
                           ),
                           Text(
                             "BRIEFTASCHE",
                             style: TextStyle(
                               fontSize: 35,
-                              fontFamily: "Sen",
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -75,7 +60,10 @@ class Welcome extends StatelessWidget {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    bottom: 20,
+                  ),
                   child: Column(
                     children: [
                       Row(
@@ -92,7 +80,6 @@ class Welcome extends StatelessWidget {
                                   "Track Money",
                                   style: TextStyle(
                                     fontSize: 30,
-                                    fontFamily: "Sen",
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
@@ -116,50 +103,12 @@ class Welcome extends StatelessWidget {
                                   "Save Money",
                                   style: TextStyle(
                                     fontSize: 30,
-                                    fontFamily: "Sen",
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
                                 )
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.all(15.0),
-                                    primary: Colors.black,
-                                    textStyle: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: "Sen",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  child: const Text('SIGN IN'),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
                           ),
                         ],
                       ),

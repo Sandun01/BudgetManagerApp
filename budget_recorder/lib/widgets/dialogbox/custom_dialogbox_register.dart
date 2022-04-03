@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogBox extends StatefulWidget {
@@ -37,10 +35,11 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       children: <Widget>[
         Container(
           padding: EdgeInsets.only(
-              left: padding,
-              top: avatarRadius + padding,
-              right: padding,
-              bottom: padding),
+            left: padding,
+            top: avatarRadius + padding,
+            right: padding,
+            bottom: padding,
+          ),
           margin: EdgeInsets.only(top: avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
