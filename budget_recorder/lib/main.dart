@@ -1,12 +1,11 @@
+import 'package:budget_recorder/screens/accounts/account_summary.dart';
 import 'package:budget_recorder/screens/accounts/manage_accounts.dart';
+import 'package:budget_recorder/screens/app_settings/feedback.dart';
+import 'package:budget_recorder/screens/app_settings/help.dart';
 import 'package:budget_recorder/screens/categories/manage_category.dart';
-import 'package:budget_recorder/screens/accounts/all_accounts.dart';
 import 'package:budget_recorder/screens/home.dart';
 import 'package:budget_recorder/screens/transactions/manage_transactions.dart';
-import 'package:budget_recorder/screens/transactions/transactions_tab_manager.dart';
-import 'package:budget_recorder/screens/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -34,10 +33,12 @@ class MyApp extends StatelessWidget {
       routes: {
         // '/': (context) => Welcome(),
         '/': (context) => Home(),
-        // '/home': (context) => Home(),
         '/account/manage': (context) => ManageAccounts(),
+        '/account/summary': (context) => AccountSummary(),
         '/category/manage': (context) => MangeCategoryData(),
         '/transaction/manage': (context) => ManageTransactions(),
+        '/help': (context) => Help(),
+        '/feedback': (context) => AppFeedback(),
       },
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

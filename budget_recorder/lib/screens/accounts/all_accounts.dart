@@ -40,9 +40,9 @@ class _AllAccountsState extends State<AllAccounts> {
               if (menu == 1) {
                 Navigator.pushNamed(context, "/account/manage");
               }
-              //else if (menu == 1) {
-              //   Navigator.pushNamed(context, "/account/summary");
-              // }
+              else if (menu == 2) {
+                Navigator.pushNamed(context, "/account/summary");
+              }
             },
           ),
         ],

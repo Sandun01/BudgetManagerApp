@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //
 
 class TotalTransactions extends StatefulWidget {
-  const TotalTransactions({ Key? key }) : super(key: key);
+  const TotalTransactions({Key? key}) : super(key: key);
 
   @override
   State<TotalTransactions> createState() => _TotalTransactionsState();
@@ -14,8 +14,144 @@ class TotalTransactions extends StatefulWidget {
 class _TotalTransactionsState extends State<TotalTransactions> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('total_transactions'),
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: //body scroll view
+                SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Header Summery Section
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Column(
+                          children: [
+                            const Text(
+                              "Income",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+                            ),
+                            Text(
+                              "1000000.00",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.green[900],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Column(
+                          children: [
+                            const Text(
+                              "Expenses",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+                            ),
+                            Text(
+                              "1000000.00",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.red[900],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Column(
+                          children: const [
+                            Text(
+                              "Total",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+                            ),
+                            Text(
+                              "1000000.00",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    color: Colors.black12,
+                  ),
+                  // Daily Expense Cards
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Card(
+                      elevation: 6,
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: const [
+                                    // month
+                                    Text(
+                                      "Income Summary",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    //year
+                                    Text(
+                                      "Total Income vs Categories",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.black45),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 1,
+                              color: Colors.black12,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          
+        ],
+      ),
     );
   }
 }

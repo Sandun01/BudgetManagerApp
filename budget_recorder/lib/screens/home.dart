@@ -1,4 +1,5 @@
 import 'package:budget_recorder/screens/accounts/all_accounts.dart';
+import 'package:budget_recorder/screens/app_settings/settings.dart';
 import 'package:budget_recorder/screens/categories/all_categories.dart';
 import 'package:budget_recorder/screens/transactions/transactions_tab_manager.dart';
 import 'package:flutter/material.dart';
@@ -19,26 +20,16 @@ class _HomeState extends State<Home> {
   }
 
   static const List<Widget> _pages = <Widget>[
+    // Settings
+    Settings(),
     // manage all transactions tabs
     TransactionTabsManager(),
-
-    // Statistics
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
 
     // Categories
     AllCategories(),
 
     // Accounts
     AllAccounts(),
-
-    // Settings
-    Icon(
-      Icons.settings,
-      size: 150,
-    ),
   ];
 
   @override
@@ -62,10 +53,6 @@ class _HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insert_chart),
-            label: 'Statistics',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.category),

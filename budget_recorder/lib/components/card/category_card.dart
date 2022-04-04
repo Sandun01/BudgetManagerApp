@@ -37,16 +37,16 @@ class _CategoryCardState extends State<CategoryCard> {
                       "Category: ${widget.name}",
                       style: const TextStyle(
                         // color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       // widget.name,
                       "Type: ${widget.type}",
                       style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(

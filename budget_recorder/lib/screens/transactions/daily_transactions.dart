@@ -186,6 +186,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                   Padding(
                     padding: const EdgeInsets.all(5),
                     child: Card(
+                      elevation: 6,
                       child: Container(
                         width: double.infinity,
                         margin: const EdgeInsets.all(15),
