@@ -1,6 +1,6 @@
 import 'package:budget_recorder/screens/accounts/all_accounts.dart';
 import 'package:budget_recorder/screens/categories/all_categories.dart';
-import 'package:budget_recorder/screens/transactions/transactions_manager.dart';
+import 'package:budget_recorder/screens/transactions/transactions_tab_manager.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -19,19 +19,21 @@ class _HomeState extends State<Home> {
   }
 
   static const List<Widget> _pages = <Widget>[
-    // Categories
-    AllCategories(),
-
     // manage all transactions tabs
-    TransactionsManager(),
+    TransactionTabsManager(),
+
     // Statistics
     Icon(
       Icons.camera,
       size: 150,
     ),
 
+    // Categories
+    AllCategories(),
+
     // Accounts
     AllAccounts(),
+
     // Settings
     Icon(
       Icons.settings,

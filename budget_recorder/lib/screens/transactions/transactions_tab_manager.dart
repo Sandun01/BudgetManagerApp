@@ -1,20 +1,21 @@
 import 'package:budget_recorder/screens/transactions/daily_transactions.dart';
 import 'package:budget_recorder/screens/transactions/monthly_transactions.dart';
 import 'package:budget_recorder/screens/transactions/total_transactions.dart';
+import 'package:budget_recorder/widgets/text/appbar_title_text.dart';
 import 'package:flutter/material.dart';
 
 //
 // Manage all transactions tabs
 //
 
-class TransactionsManager extends StatefulWidget {
-  const TransactionsManager({Key? key}) : super(key: key);
+class TransactionTabsManager extends StatefulWidget {
+  const TransactionTabsManager({Key? key}) : super(key: key);
 
   @override
-  State<TransactionsManager> createState() => _TransactionsManagerState();
+  State<TransactionTabsManager> createState() => _TransactionTabsManagerState();
 }
 
-class _TransactionsManagerState extends State<TransactionsManager> {
+class _TransactionTabsManagerState extends State<TransactionTabsManager> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -53,12 +54,7 @@ class _TransactionsManagerState extends State<TransactionsManager> {
               ),
             ],
           ),
-          title: const Text(
-            'Transactions',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          title: const AppBarTitleText(title: 'Transactions'),
         ),
         body: const TabBarView(
           children: [

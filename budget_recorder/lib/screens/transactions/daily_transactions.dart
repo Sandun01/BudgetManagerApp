@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:intl/intl.dart';
 
+//
+// Transactions daily
+//
 class DailyTransactions extends StatefulWidget {
   const DailyTransactions({Key? key}) : super(key: key);
 
@@ -24,7 +27,9 @@ class _DailyTransactionsState extends State<DailyTransactions> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, "/transaction/manage");
+        },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(
           Icons.add,

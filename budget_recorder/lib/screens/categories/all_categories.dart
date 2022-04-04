@@ -1,5 +1,10 @@
+import 'package:budget_recorder/components/card/category_card.dart';
+import 'package:budget_recorder/widgets/text/appbar_title_text.dart';
 import 'package:flutter/material.dart';
-import 'package:budget_recorder/widgets/card/category_card.dart';
+
+//
+// All Categories
+//
 
 class AllCategories extends StatefulWidget {
   const AllCategories({Key? key}) : super(key: key);
@@ -25,17 +30,14 @@ class _AllCategoriesState extends State<AllCategories> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text(
-          'Categories',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const AppBarTitleText(title: 'Categories'),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, "/category/manage");
+              },
               child: const Icon(
                 Icons.add_circle_rounded,
                 size: 30.0,

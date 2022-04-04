@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+//
+// All view(List View) - Category Card
+//
+
 class CategoryCard extends StatefulWidget {
   final String name, descriptions, type;
   const CategoryCard({
@@ -60,7 +64,9 @@ class _CategoryCardState extends State<CategoryCard> {
                   children: [
                     // Edit
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/category/manage");
+                      },
                       icon: Icon(
                         Icons.edit,
                         color: Colors.green[700],
