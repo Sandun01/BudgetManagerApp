@@ -50,8 +50,32 @@ const deleteCategory = asyncHandler(async (req, res) => {
   }
 });
 
+const updateCategory = asyncHandler(async (req, res) => {
+  if (req.body && req.params) {
+    const query = { _id: req.params.id };
+    const update = {
+      name: req.body.name,
+      description: req.body.description,
+    };
+
+    await Category.updateOne(query, update)
+      .then((result) => {
+        // console.log(result.modifiedCount);
+        res
+          .status(200)
+          .send({ success: true, message: "Category Updated Successfully!" });
+      })
+      .catch((error) => {
+        res.status(200).send({ success: false, message: error });
+      });
+  } else {
+    res.status(200).send({ success: false, message: "No Data Found" });
+  }
+});
+
 export default {
   createCategory,
   getAllCategories,
   deleteCategory,
+  updateCategory,
 };

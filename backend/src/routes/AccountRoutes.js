@@ -9,5 +9,6 @@ router
   .get(AccountController.getAllAccounts);
 
 router.route("/:id").delete(AccountController.deleteAccount);
+router.route("/:id").patch(AccountController.updateAccount);
 
 export default router;

@@ -9,5 +9,6 @@ router
   .get(CategoryController.getAllCategories);
 
 router.route("/:id").delete(CategoryController.deleteCategory);
+router.route("/:id").patch(CategoryController.updateCategory);
 
 export default router;

@@ -7,8 +7,8 @@ const accountModel = mongoose.Schema(
       required: true,
     },
     amount: {
+      default: 0,
       type: Number,
-      required: true,
     },
     description: {
       type: String,

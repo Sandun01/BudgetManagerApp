@@ -50,8 +50,32 @@ const deleteAccount = asyncHandler(async (req, res) => {
   }
 });
 
+const updateAccount = asyncHandler(async (req, res) => {
+  if (req.body && req.params) {
+    const query = { _id: req.params.id };
+    const update = {
+      name: req.body.name,
+      description: req.body.description,
+    };
+
+    await Account.updateOne(query, update)
+      .then((result) => {
+        // console.log(result.modifiedCount);
+        res
+          .status(200)
+          .send({ success: true, message: "Account Updated Successfully!" });
+      })
+      .catch((error) => {
+        res.status(200).send({ success: false, message: error });
+      });
+  } else {
+    res.status(200).send({ success: false, message: "No Data Found" });
+  }
+});
+
 export default {
   createAccount,
   getAllAccounts,
   deleteAccount,
+  updateAccount,
 };
