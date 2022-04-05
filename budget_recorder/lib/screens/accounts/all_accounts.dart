@@ -1,6 +1,9 @@
+import 'package:budget_recorder/data/currency_data.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_recorder/components/card/account_card.dart';
 import 'package:budget_recorder/widgets/text/appbar_title_text.dart';
+import 'package:provider/provider.dart';
 
 //
 // All Accounts
@@ -20,6 +23,10 @@ class _AllAccountsState extends State<AllAccounts> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+    String appCurrencyName = themeChange.appCurrency;
+    String appCurrencyLabel = getLabelByName(appCurrencyName);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -39,8 +46,7 @@ class _AllAccountsState extends State<AllAccounts> {
             onSelected: (int menu) {
               if (menu == 1) {
                 Navigator.pushNamed(context, "/account/manage");
-              }
-              else if (menu == 2) {
+              } else if (menu == 2) {
                 Navigator.pushNamed(context, "/account/summary");
               }
             },
@@ -61,8 +67,8 @@ class _AllAccountsState extends State<AllAccounts> {
                   Padding(
                     padding: const EdgeInsets.all(5),
                     child: Column(
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Assets",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -70,8 +76,8 @@ class _AllAccountsState extends State<AllAccounts> {
                           ),
                         ),
                         Text(
-                          "1500000.00",
-                          style: TextStyle(
+                          "$appCurrencyLabel 1500000.00",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                             // color: Colors.green[900],
@@ -88,8 +94,8 @@ class _AllAccountsState extends State<AllAccounts> {
                   Padding(
                     padding: const EdgeInsets.all(5),
                     child: Column(
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Liabilities",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -97,8 +103,8 @@ class _AllAccountsState extends State<AllAccounts> {
                           ),
                         ),
                         Text(
-                          "1000000.00",
-                          style: TextStyle(
+                          "$appCurrencyLabel 1000000.00",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                             // color: Colors.red[900],
@@ -115,8 +121,8 @@ class _AllAccountsState extends State<AllAccounts> {
                   Padding(
                     padding: const EdgeInsets.all(5),
                     child: Column(
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Total",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -124,8 +130,8 @@ class _AllAccountsState extends State<AllAccounts> {
                           ),
                         ),
                         Text(
-                          "500000.00",
-                          style: TextStyle(
+                          "$appCurrencyLabel 500000.00",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),

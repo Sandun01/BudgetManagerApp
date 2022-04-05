@@ -1,4 +1,7 @@
+import 'package:budget_recorder/data/currency_data.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //
 // All view(List View) - Account Card
@@ -21,6 +24,10 @@ class AccountCard extends StatefulWidget {
 class _AccountCardState extends State<AccountCard> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+    String appCurrencyName = themeChange.appCurrency;
+    String appCurrencyLabel = getLabelByName(appCurrencyName);
+
     return Container(
       // color: Theme.of(context).primaryColor,
       child: Column(
@@ -44,7 +51,7 @@ class _AccountCardState extends State<AccountCard> {
                     ),
                     Text(
                       // widget.name,
-                      "Balance: ${widget.balance}",
+                      "$appCurrencyLabel Balance: ${widget.balance}",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,

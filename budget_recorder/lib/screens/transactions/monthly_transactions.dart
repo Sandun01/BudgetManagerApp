@@ -1,5 +1,8 @@
+import 'package:budget_recorder/data/currency_data.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 //
 // Transactions monthly
@@ -52,6 +55,10 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+    String appCurrencyName = themeChange.appCurrency;
+    String appCurrencyLabel = getLabelByName(appCurrencyName);
+
     return Scaffold(
       body: Column(
         children: [
@@ -70,7 +77,7 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
+                      color: Theme.of(context).backgroundColor,
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black,
@@ -130,10 +137,10 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
+                              "$appCurrencyLabel 1000000.00",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.green[900],
                               ),
                             ),
@@ -152,10 +159,10 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
+                              "$appCurrencyLabel 1000000.00",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.red[900],
                               ),
                             ),
@@ -165,8 +172,8 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                       Padding(
                         padding: const EdgeInsets.all(5),
                         child: Column(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               "Total",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -174,10 +181,10 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
-                              style: TextStyle(
+                              "$appCurrencyLabel 1000000.00",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -246,7 +253,7 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                                     ),
                                     // total
                                     Text(
-                                      "15000.00",
+                                      "$appCurrencyLabel 15000.00",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -269,7 +276,7 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                                     ),
                                     // total
                                     Text(
-                                      "15000.00",
+                                      "$appCurrencyLabel 15000.00",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -280,16 +287,16 @@ class _MonthlyTransactionsState extends State<MonthlyTransactions> {
                                 ),
                                 // total
                                 Column(
-                                  children: const [
-                                    Text(
+                                  children: [
+                                    const Text(
                                       "Total",
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
                                     ),
                                     Text(
-                                      "Rs.15000.00",
-                                      style: TextStyle(
+                                      "$appCurrencyLabel Rs.15000.00",
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                       ),

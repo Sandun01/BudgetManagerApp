@@ -1,4 +1,7 @@
+import 'package:budget_recorder/data/currency_data.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //
 // summary transactions
@@ -14,6 +17,10 @@ class TotalTransactions extends StatefulWidget {
 class _TotalTransactionsState extends State<TotalTransactions> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+    String appCurrencyName = themeChange.appCurrency;
+    String appCurrencyLabel = getLabelByName(appCurrencyName);
+
     return Scaffold(
       body: Column(
         children: [
@@ -42,10 +49,10 @@ class _TotalTransactionsState extends State<TotalTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
+                              "$appCurrencyLabel 1000000.00",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.green[900],
                               ),
                             ),
@@ -64,10 +71,10 @@ class _TotalTransactionsState extends State<TotalTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
+                              "$appCurrencyLabel 1000000.00",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.red[900],
                               ),
                             ),
@@ -77,8 +84,8 @@ class _TotalTransactionsState extends State<TotalTransactions> {
                       Padding(
                         padding: const EdgeInsets.all(5),
                         child: Column(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               "Total",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -86,10 +93,10 @@ class _TotalTransactionsState extends State<TotalTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
-                              style: TextStyle(
+                              "$appCurrencyLabel 1000000.00",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -149,7 +156,6 @@ class _TotalTransactionsState extends State<TotalTransactions> {
               ),
             ),
           ),
-          
         ],
       ),
     );

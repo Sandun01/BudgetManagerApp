@@ -1,3 +1,5 @@
+import 'package:budget_recorder/models/SharedPreference.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:budget_recorder/screens/accounts/account_summary.dart';
 import 'package:budget_recorder/screens/accounts/manage_accounts.dart';
 import 'package:budget_recorder/screens/app_settings/feedback.dart';
@@ -7,46 +9,86 @@ import 'package:budget_recorder/screens/home.dart';
 import 'package:budget_recorder/screens/transactions/manage_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  final AppSharedPreferences _appSharedPreference;
+  const MyApp({Key? key})
+      : _appSharedPreference = const AppSharedPreferences(),
+        super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeProvider themeChangeProvider = ThemeProvider();
+
+  void getSavedAppTheme() async {
+    themeChangeProvider.setDarkTheme =
+        await widget._appSharedPreference.getAppTheme();
+  }
+
+  void getSavedAppCurrency() async {
+    themeChangeProvider.setAppCurrency =
+        await widget._appSharedPreference.getAppCurrency();
+  }
+
+  @override
+  initState() {
+    super.initState();
+    //get app theme data
+    getSavedAppTheme();
+    //get app currency
+    getSavedAppCurrency();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "BRIEFTASCHE",
-      theme: ThemeData(
-        //Default brightness and colors.
-        brightness: Brightness.light,
-        primaryColor: const Color.fromARGB(
-            255, 0, 41, 73), //use -> Theme.of(context).primaryColor
-
-        //Default font family.
-        fontFamily: 'Sen',
-      ),
-      initialRoute: '/',
-      routes: {
-        // '/': (context) => Welcome(),
-        '/': (context) => Home(),
-        '/account/manage': (context) => ManageAccounts(),
-        '/account/summary': (context) => AccountSummary(),
-        '/category/manage': (context) => MangeCategoryData(),
-        '/transaction/manage': (context) => ManageTransactions(),
-        '/help': (context) => Help(),
-        '/feedback': (context) => AppFeedback(),
+    return ChangeNotifierProvider(
+      create: (_) {
+        return themeChangeProvider;
       },
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, value, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: "BRIEFTASCHE",
+          theme: ThemeData(
+            //Default brightness and colors.
+            brightness: themeChangeProvider.darkTheme
+                ? Brightness.dark
+                : Brightness.light,
+            primaryColor: const Color.fromARGB(
+                255, 0, 41, 73), //use -> Theme.of(context).primaryColor
+
+            //Default font family.
+            fontFamily: 'Sen',
+            //dark theme
+          ),
+          initialRoute: '/',
+          routes: {
+            // '/': (context) => Welcome(),
+            '/': (context) => Home(),
+            '/account/manage': (context) => ManageAccounts(),
+            '/account/summary': (context) => AccountSummary(),
+            '/category/manage': (context) => MangeCategoryData(),
+            '/transaction/manage': (context) => ManageTransactions(),
+            '/help': (context) => Help(),
+            '/feedback': (context) => AppFeedback(),
+          },
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,61 +1,16 @@
-import 'package:budget_recorder/models/SharedPreference.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_recorder/widgets/text/appbar_title_text.dart';
 import 'package:budget_recorder/data/currency_data.dart';
+import 'package:provider/provider.dart';
 
-class Settings extends StatefulWidget {
-  final AppSharedPreferences _appSharedPreference;
-  const Settings({Key? key})
-      : _appSharedPreference = const AppSharedPreferences(),
-        super(key: key);
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  String _selectedCurrency = currenciesList.elementAt(0).name;
-  bool _isDarkTheme = false;
-
-  // App theme
-  void getSavedAppTheme() async {
-    await widget._appSharedPreference.getAppTheme().then((value) {
-      setState(() {
-        _isDarkTheme = value;
-      });
-    });
-    print("_isDarkTheme: ${_isDarkTheme}");
-  }
-
-  void saveAppTheme(value) async {
-    await widget._appSharedPreference.setAppTheme(value);
-  }
-
-  // App Currency
-  void getSavedAppCurrency() async {
-    await widget._appSharedPreference.getAppCurrency().then((value) {
-      setState(() {
-        _selectedCurrency = value;
-      });
-    });
-    print("_selectedCurrency: ${_selectedCurrency}");
-  }
-
-  void saveAppCurrency(value) async {
-    await widget._appSharedPreference.setAppCurrency(value);
-  }
-
-  @override
-  initState() {
-    super.initState();
-    //get app theme data
-    getSavedAppTheme();
-    //get app currency
-    getSavedAppCurrency();
-  }
+class Settings extends StatelessWidget {
+  const Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -114,14 +69,10 @@ class _SettingsState extends State<Settings> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  value: _selectedCurrency,
+                  value: themeChange.appCurrency,
                   onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedCurrency = newValue!;
-                    });
                     print("newValue:${newValue}");
-                    //save app currency
-                    saveAppCurrency(newValue);
+                    themeChange.setAppCurrency = newValue.toString();
                   },
                   items: currenciesList
                       .map<DropdownMenuItem<String>>((Currency currency) {
@@ -130,6 +81,17 @@ class _SettingsState extends State<Settings> {
                       child: Text(currency.name),
                     );
                   }).toList(),
+                  // onChanged: (String? obj) {
+                  //   if (obj != null) {
+                  //     themeChange.setAppCurrency = obj;
+                  //   }
+                  //   // setState(() {
+                  //   //   _selectedCurrency = newValue!;
+                  //   // });
+                  //   // print("newValue:${newValue}");
+                  //   // //save app currency
+                  //   // saveAppCurrency(newValue);
+                  // },
 
                   //==============================================
                   // items: <String>['LKR', 'AUD', 'USD']
@@ -181,21 +143,13 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                       Switch(
-                        value:
-                            _isDarkTheme, //false - Light Theme | True - Dark Theme
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              _isDarkTheme = value;
-                            },
-                          );
-                          print("theme value:${value}");
-                          //save theme
-                          saveAppTheme(value);
-                        },
-                        activeTrackColor: Colors.black54,
-                        activeColor: Colors.black,
-                      ),
+                          value: themeChange
+                              .darkTheme, //false - Light Theme | True - Dark Theme
+                          activeTrackColor: Colors.black54,
+                          activeColor: Colors.black,
+                          onChanged: (bool value) {
+                            themeChange.setDarkTheme = value;
+                          }),
                     ],
                   ),
                 ),

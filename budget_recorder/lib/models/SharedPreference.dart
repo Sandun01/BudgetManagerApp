@@ -30,7 +30,7 @@ class AppSharedPreferences {
   Future<bool> getAppTheme() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-
+    print("Dark Theme: ${sharedPreferences.getBool(_darkThemeKey)}");
     return sharedPreferences.getBool(_darkThemeKey) ?? false;
   }
 
@@ -38,7 +38,7 @@ class AppSharedPreferences {
   Future<String> getAppCurrency() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
-
+    print("Currency: ${sharedPreferences.getString(_currencyKey)}");
     return sharedPreferences.getString(_currencyKey) ?? 'LKR';
   }
 }

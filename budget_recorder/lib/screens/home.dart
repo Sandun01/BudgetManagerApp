@@ -20,8 +20,6 @@ class _HomeState extends State<Home> {
   }
 
   static const List<Widget> _pages = <Widget>[
-    // Settings
-    Settings(),
     // manage all transactions tabs
     TransactionTabsManager(),
 
@@ -30,6 +28,9 @@ class _HomeState extends State<Home> {
 
     // Accounts
     AllAccounts(),
+
+    // Settings
+    Settings(),
   ];
 
   @override

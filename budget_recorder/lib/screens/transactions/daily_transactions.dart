@@ -1,12 +1,18 @@
+import 'package:budget_recorder/data/currency_data.dart';
+import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 //
 // Transactions daily
 //
 class DailyTransactions extends StatefulWidget {
-  const DailyTransactions({Key? key}) : super(key: key);
+  const DailyTransactions({
+    Key? key,
+    String? currData,
+  }) : super(key: key);
 
   @override
   State<DailyTransactions> createState() => _DailyTransactionsState();
@@ -25,6 +31,10 @@ class _DailyTransactionsState extends State<DailyTransactions> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+    String appCurrencyName = themeChange.appCurrency;
+    String appCurrencyLabel = getLabelByName(appCurrencyName);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -62,7 +72,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
+                      color: Theme.of(context).backgroundColor,
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black,
@@ -123,10 +133,10 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
+                              "$appCurrencyLabel 1000000.00",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.green[900],
                               ),
                             ),
@@ -145,10 +155,10 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
+                              "$appCurrencyLabel 1000000.00",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.red[900],
                               ),
                             ),
@@ -158,8 +168,8 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                       Padding(
                         padding: const EdgeInsets.all(5),
                         child: Column(
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               "Total",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -167,10 +177,10 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                               ),
                             ),
                             Text(
-                              "1000000.00",
-                              style: TextStyle(
+                              "$appCurrencyLabel 1000000.00",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -216,9 +226,9 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                                   ],
                                 ),
                                 Column(
-                                  children: const [
+                                  children: [
                                     // date
-                                    Text(
+                                    const Text(
                                       "Total",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -227,8 +237,8 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                                     ),
                                     // total
                                     Text(
-                                      "Rs.15000.00",
-                                      style: TextStyle(
+                                      "$appCurrencyLabel 15000.00",
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 22,
                                       ),

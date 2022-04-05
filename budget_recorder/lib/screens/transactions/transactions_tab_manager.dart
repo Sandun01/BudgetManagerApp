@@ -8,16 +8,12 @@ import 'package:flutter/material.dart';
 // Manage all transactions tabs
 //
 
-class TransactionTabsManager extends StatefulWidget {
+class TransactionTabsManager extends StatelessWidget {
   const TransactionTabsManager({Key? key}) : super(key: key);
 
   @override
-  State<TransactionTabsManager> createState() => _TransactionTabsManagerState();
-}
-
-class _TransactionTabsManagerState extends State<TransactionTabsManager> {
-  @override
   Widget build(BuildContext context) {
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
