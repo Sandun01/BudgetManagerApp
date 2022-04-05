@@ -51,7 +51,7 @@ class _AccountCardState extends State<AccountCard> {
                     ),
                     Text(
                       // widget.name,
-                      "$appCurrencyLabel Balance: ${widget.balance}",
+                      "Balance: $appCurrencyLabel ${widget.balance}",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,

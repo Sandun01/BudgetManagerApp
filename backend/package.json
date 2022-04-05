@@ -25,5 +25,5 @@
     "nodemon": "^2.0.12"
   },
   "author": "2022_REG_31",
-  "license": "ISC"
+  "license": "MIT"
 }

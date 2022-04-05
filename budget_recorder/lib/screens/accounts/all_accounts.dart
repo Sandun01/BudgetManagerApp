@@ -79,7 +79,7 @@ class _AllAccountsState extends State<AllAccounts> {
                           "$appCurrencyLabel 1500000.00",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                             // color: Colors.green[900],
                           ),
                         ),
@@ -106,7 +106,7 @@ class _AllAccountsState extends State<AllAccounts> {
                           "$appCurrencyLabel 1000000.00",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                             // color: Colors.red[900],
                           ),
                         ),
@@ -133,7 +133,7 @@ class _AllAccountsState extends State<AllAccounts> {
                           "$appCurrencyLabel 500000.00",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ],
