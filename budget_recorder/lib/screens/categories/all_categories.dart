@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:budget_recorder/components/card/category_card.dart';
+import 'package:budget_recorder/models/Category.dart';
+import 'package:budget_recorder/services/CategoryService.dart';
+import 'package:budget_recorder/widgets/loaders/dataLoadingIndicator.dart';
+import 'package:budget_recorder/widgets/loaders/noData.dart';
 import 'package:budget_recorder/widgets/text/appbar_title_text.dart';
 import 'package:flutter/material.dart';
 
@@ -7,23 +13,41 @@ import 'package:flutter/material.dart';
 //
 
 class AllCategories extends StatefulWidget {
-  const AllCategories({Key? key}) : super(key: key);
+  final CategoryService _categoryService;
+  const AllCategories({Key? key})
+      : _categoryService = const CategoryService(),
+        super(key: key);
 
   @override
   State<AllCategories> createState() => _AllCategoriesState();
 }
 
 class _AllCategoriesState extends State<AllCategories> {
-  final List<String> allCategories = <String>[
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H'
-  ];
+  List<Category> allCategories = [];
+  bool dataLoading = true;
+
+  void getAllCategories() async {
+    await widget._categoryService
+        .getAllCategories()
+        .then(
+          (value) => setState(
+            () {
+              dataLoading = false;
+              allCategories = value!.cast<Category>();
+            },
+          ),
+        )
+        .onError(
+          (error, stackTrace) => print(error),
+        );
+  }
+
+  @override
+  initState() {
+    super.initState();
+    //get all categories
+    getAllCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +76,21 @@ class _AllCategoriesState extends State<AllCategories> {
         ),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          padding: const EdgeInsets.all(5),
-          itemCount: allCategories.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CategoryCard(
-              name: allCategories[index],
-              descriptions: "descriptions",
-              type: "type",
-            );
-          },
-        ),
+        child: dataLoading == true
+            ? const DataLoadingIndicator()
+            : allCategories.isNotEmpty
+                ? ListView.builder(
+                    padding: const EdgeInsets.all(5),
+                    itemCount: allCategories.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CategoryCard(
+                        name: allCategories[index].name,
+                        descriptions: allCategories[index].description,
+                        type: allCategories[index].type,
+                      );
+                    },
+                  )
+                : const NoData(),
       ),
     );
   }

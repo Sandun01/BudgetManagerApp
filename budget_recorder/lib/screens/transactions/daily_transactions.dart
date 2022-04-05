@@ -1,5 +1,8 @@
+import 'package:budget_recorder/components/card/daily_transaction_card.dart';
 import 'package:budget_recorder/data/currency_data.dart';
+import 'package:budget_recorder/models/Transaction.dart';
 import 'package:budget_recorder/providers/ThemeProvider.dart';
+import 'package:budget_recorder/services/TransactionServices.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:intl/intl.dart';
@@ -9,10 +12,12 @@ import 'package:provider/provider.dart';
 // Transactions daily
 //
 class DailyTransactions extends StatefulWidget {
+  final TransactionService _transactionService;
   const DailyTransactions({
     Key? key,
     String? currData,
-  }) : super(key: key);
+  })  : _transactionService = const TransactionService(),
+        super(key: key);
 
   @override
   State<DailyTransactions> createState() => _DailyTransactionsState();
@@ -20,13 +25,34 @@ class DailyTransactions extends StatefulWidget {
 
 class _DailyTransactionsState extends State<DailyTransactions> {
   DateTime? selectedDate;
+  bool dataLoading = true;
+  List<Transaction> allMonthlyTransactions = <Transaction>[];
 
   get _initialDate => DateTime.now();
+
+  void getMonthlyTransactions() async {
+    await widget._transactionService
+        .getAllMonthlyTransactions()
+        .then(
+          (value) => setState(
+            () {
+              dataLoading = false;
+              allMonthlyTransactions = value!.cast<Transaction>();
+            },
+          ),
+        )
+        .onError(
+          (error, stackTrace) => print(error),
+        );
+  }
 
   @override
   void initState() {
     super.initState();
     selectedDate = _initialDate;
+
+    //get all transactions monthly
+    getMonthlyTransactions();
   }
 
   @override
@@ -193,129 +219,10 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                     color: Colors.black12,
                   ),
                   // Daily Expense Cards
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Card(
-                      elevation: 6,
-                      child: Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(15),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: const [
-                                    // date
-                                    Text(
-                                      "Day-15",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                    // month & year
-                                    Text(
-                                      "03.2022",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                          color: Colors.black45),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    // date
-                                    const Text(
-                                      "Total",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    // total
-                                    Text(
-                                      "$appCurrencyLabel 15000.00",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black12,
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // account
-                                const Text(
-                                  "Salary",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                // category
-                                const Text(
-                                  "Cash",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Text(
-                                  "15000.00",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.red[900],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // account
-                                const Text(
-                                  "Salary",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                // category
-                                const Text(
-                                  "Cash",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Text(
-                                  "15000.00",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.green[900],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  DailyTransactionCard(
+                    appCurrencyLabel: '',
+                    transactionList: allMonthlyTransactions,
+                  )
                 ],
               ),
             ),

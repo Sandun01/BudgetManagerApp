@@ -107,8 +107,100 @@ const deleteTransaction = asyncHandler(async (req, res) => {
   }
 });
 
+const getDailyTransactions = asyncHandler(async (req, res) => {
+  if (req.params) {
+    var date = req.params.date;
+    var search_month = parseInt(date.split("-",2)[0]);
+    var search_year = parseInt(date.split("-",2)[1]);
+    console.log(search_year, search_month);
+    
+    const query1 = { $sort: { date: 1 } };
+    const query2 = {
+      $project: {
+        year: { $year: "$date" },
+        month: { $month: "$date" },
+        day: { $dayOfMonth: "$date" },
+        _id: "$_id",
+        date: "$date",
+        type: "$type",
+        amount: "$amount",
+        account: "$account",
+        category: "$category",
+      },
+    };
+    const query3 = {
+      $match: { month: search_month, year: search_year },
+    };
+    const query4 = {
+      $group: {
+        _id: {
+          day: { $dayOfMonth: "$date" },
+          month: { $month: "$date" },
+          year: { $year: "$date" },
+        },
+        transactions: {
+          $push: {
+            _id: "$_id",
+            day: "$day",
+            _id: "$_id",
+            date: "$date",
+            type: "$type",
+            amount: "$amount",
+            account: "$account",
+            category: "$category",
+          },
+        },
+      },
+    };
+
+    await Transaction.aggregate([query1, query2, query3, query4])
+      .then((data) => {
+        res.status(200).send({ success: true, transactions: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(200).send({ success: false, message: error });
+      });
+  } else {
+    res.status(200).send({ success: false, message: "Date Not Found" });
+  }
+});
+
+const getMonthlyTransactions = asyncHandler(async (req, res) => {
+  const query1 = { $sort: { date: 1 } };
+  const query2 = {
+    $group: {
+      _id: {
+        month: { $month: "$date" },
+        year: { $year: "$date" },
+      },
+      transactions: {
+        $push: {
+          _id: "$_id",
+          date: "$date",
+          type: "$type",
+          amount: "$amount",
+          account: "$account",
+          category: "$category",
+        },
+      },
+    },
+  };
+
+  await Transaction.aggregate([query1, query2])
+    .then((data) => {
+      res.status(200).send({ success: true, transactions: data });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(200).send({ success: false, message: error });
+    });
+});
+
 export default {
   createTransaction,
   getAllTransactions,
   deleteTransaction,
+  getDailyTransactions,
+  getMonthlyTransactions,
 };
