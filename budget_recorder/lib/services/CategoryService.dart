@@ -96,4 +96,38 @@ class CategoryService {
       return Future.error('Error!');
     }
   }
+
+  //update category
+  Future<bool?> updateCategory(Category categoryData) async {
+    bool updateSuccess = false;
+    try {
+      print(categoryData.cID);
+      Response response = await patch(
+        Uri.parse(endpoint + categoryData.cID),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'name': categoryData.name,
+          'description': categoryData.description,
+        }),
+      );
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          updateSuccess = true;
+          return updateSuccess;
+        } else {
+          return Future.error('Error!');
+        }
+      } else {
+        return Future.error('Error!');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Error!');
+    }
+  }
 }

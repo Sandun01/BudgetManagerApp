@@ -11,7 +11,11 @@ import 'dart:io';
 //
 
 class CategoryForm extends StatefulWidget {
-  final String formType, categoryName, categoryType, categoryDescription;
+  final String formType,
+      categoryID,
+      categoryName,
+      categoryType,
+      categoryDescription;
   final CategoryService _categoryService;
 
   const CategoryForm({
@@ -20,6 +24,7 @@ class CategoryForm extends StatefulWidget {
     required this.categoryName,
     required this.categoryType,
     required this.categoryDescription,
+    required this.categoryID,
   })  : _categoryService = const CategoryService(),
         super(key: key);
 
@@ -29,16 +34,9 @@ class CategoryForm extends StatefulWidget {
 
 class _CategoryFormState extends State<CategoryForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> _selectedValueKey = GlobalKey<FormState>();
   String? selectedValue;
 
   Category _category = Category("", "", "", "");
-
-  // var createCategoryData = {
-  //   "name": "",
-  //   "category": "",
-  //   "type": "",
-  // };
 
   //Create new category
   void createNewCategory() async {
@@ -91,6 +89,56 @@ class _CategoryFormState extends State<CategoryForm> {
     );
   }
 
+  //update category
+  void editCategory() async {
+    //save form fields
+    _formKey.currentState!.save();
+
+    _category.setCID(widget.categoryID);
+
+    await widget._categoryService.updateCategory(_category).then(
+      (value) {
+        print(value);
+        if (value!) {
+          //if success
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogBox(
+                title: "Success!",
+                descriptions: "Category Updated Successfully!",
+                text: "OK",
+                route: "/home",
+                arguments: {
+                  "tabIndex": 1, //category tab
+                },
+                btnColor: "", //Error
+              );
+            },
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogBox(
+                title: "Error!",
+                descriptions: "Please Try Again Later.",
+                text: "OK",
+                route: "",
+                arguments: "",
+                btnColor: "Error", //Error
+              );
+            },
+          );
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        print(error);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -108,6 +156,7 @@ class _CategoryFormState extends State<CategoryForm> {
                     height: 10,
                   ),
                   TextFormField(
+                    initialValue: widget.categoryName,
                     maxLength: 15,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -135,45 +184,58 @@ class _CategoryFormState extends State<CategoryForm> {
                   ),
 
                   // ===============================================================
-                  DropdownButtonFormField(
-                    key: _selectedValueKey,
-                    hint: const Text("Category Type"),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    validator: (value) =>
-                        value == null ? "Select a Category Type" : null,
-                    // dropdownColor: Colors.blueAccent,
-                    value: selectedValue,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedValue = newValue!;
-                      });
-                    },
-                    items: <String>['Income', 'Expense']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onSaved: (value) {
-                      _category.setType(selectedValue!);
-                      // createCategoryData = {
-                      //   "name": createCategoryData['name'].toString(),
-                      //   "category": selectedValue.toString(),
-                      //   "type": createCategoryData['type'].toString(),
-                      // };
-                    },
-                  ),
+
+                  widget.formType == "Edit"
+                      ? TextFormField(
+                          initialValue: widget.categoryType,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'Category Type',
+                          ),
+                          enabled: false,
+                        )
+                      : DropdownButtonFormField(
+                          hint: const Text("Category Type"),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) =>
+                              value == null ? "Select a Category Type" : null,
+                          // dropdownColor: Colors.blueAccent,
+                          value: selectedValue,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedValue = newValue!;
+                            });
+                          },
+                          items: <String>['Income', 'Expense']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onSaved: (value) {
+                            _category.setType(selectedValue!);
+                            // createCategoryData = {
+                            //   "name": createCategoryData['name'].toString(),
+                            //   "category": selectedValue.toString(),
+                            //   "type": createCategoryData['type'].toString(),
+                            // };
+                          },
+                        ),
 
                   // ===============================================================
                   const SizedBox(
                     height: 25,
                   ),
                   TextFormField(
+                    initialValue: widget.categoryDescription,
                     keyboardType: TextInputType.multiline,
                     textInputAction: TextInputAction.newline,
                     minLines: 1,
@@ -207,17 +269,11 @@ class _CategoryFormState extends State<CategoryForm> {
                     onPressed: () {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
-                        createNewCategory();
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //     return const OperationLoader();
-                        //   },
-                        // );
-                        // If the form is valid, display a snackbar. In the real world,
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   const SnackBar(content: Text('Processing Data...')),
-                        // );
+                        if (widget.formType == "Edit") {
+                          editCategory();
+                        } else { //create new
+                          createNewCategory();
+                        }
                       }
                     },
                     style: ButtonStyle(
@@ -234,17 +290,17 @@ class _CategoryFormState extends State<CategoryForm> {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.save,
                           size: 30,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          'Save',
-                          style: TextStyle(
+                          "${widget.formType == "Add" ? "Save" : "Update"}",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),

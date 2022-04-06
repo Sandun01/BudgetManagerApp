@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 //
 
 class MangeCategoryData extends StatefulWidget {
-  final String formType = "Add";
   const MangeCategoryData({
     Key? key,
   }) : super(key: key);
@@ -18,20 +17,37 @@ class MangeCategoryData extends StatefulWidget {
 
 class _MangeCategoryDataState extends State<MangeCategoryData> {
   String? categoryType;
+  String _formType = "Add";
+  String _id = "";
+  String _name = "";
+  String _description = "";
+  String _type = "";
 
   @override
   Widget build(BuildContext context) {
+    RouteSettings? rs = ModalRoute.of(context)?.settings;
+
+    if (rs!.arguments != null) {
+      final Map arguments = rs.arguments as Map;
+      print(arguments);
+      _formType = "Edit";
+      _id = arguments["id"];
+      _name = arguments["name"];
+      _type = arguments["type"];
+      _description = arguments["description"];
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: AppBarTitleText(title: "${widget.formType} Category"),
+        title: AppBarTitleText(title: "$_formType Category"),
       ),
       body: SafeArea(
         child: CategoryForm(
-          formType: widget.formType,
-          categoryName: "",
-          categoryType: "",
-          categoryDescription: "",
+          formType: _formType,
+          categoryID: _id,
+          categoryName: _name,
+          categoryType: _type,
+          categoryDescription: _description,
         ),
       ),
     );

@@ -82,9 +82,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   onPressed: () {
                     widget.route == ""
                         ? Navigator.pop(context, false) //close dialog box
-                        : Navigator.of(context).pushNamedAndRemoveUntil(
+                        : Navigator.of(context).pushNamed(
                             widget.route,
-                            ModalRoute.withName('/home'),
                             arguments: widget.arguments,
                           );
                   },

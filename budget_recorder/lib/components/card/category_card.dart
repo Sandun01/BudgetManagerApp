@@ -143,7 +143,13 @@ class _CategoryCardState extends State<CategoryCard> {
                   // Edit
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/category/manage");
+                      Navigator.pushNamed(context, "/category/manage",
+                          arguments: {
+                            "id": widget.id,
+                            "name": widget.name,
+                            "description": widget.descriptions,
+                            "type": widget.type,
+                          });
                     },
                     icon: Icon(
                       Icons.edit,
