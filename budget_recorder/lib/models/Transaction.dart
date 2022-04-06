@@ -1,29 +1,51 @@
-class Transaction {
-  String transactionID, name, description, type;
-  double amount;
-  DateTime date;
+import 'package:budget_recorder/models/Account.dart';
+import 'package:budget_recorder/models/Category.dart';
 
-  Transaction(this.transactionID, this.name, this.amount, this.description,
-      this.type, this.date);
+class Transaction {
+  String transactionID, description, type, date;
+  double amount;
+  Account account;
+  Category category;
+
+  Transaction(
+    this.transactionID,
+    this.date,
+    this.type,
+    this.amount,
+    this.account,
+    this.category,
+    this.description,
+  );
+
+  String getAccountName() {
+    return account.name;
+  }
+
+  String getCategoryName() {
+    return category.name;
+  }
 
   static Transaction fromMap(Map map) {
     return Transaction(
       map['_id'].toString(),
-      map['name'].toString(),
-      double.parse(map['amount'].toString()),
-      map['description'].toString(),
+      map['date'].toString(),
       map['type'].toString(),
-      DateTime.parse(map['date'].toString()),
+      double.parse(map['amount'].toString()),
+      map['account'],
+      map['category'],
+      map['description'].toString(),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       "_id": this.transactionID,
-      "name": this.name,
-      "amount": this.amount,
-      "description": this.description,
+      "date": this.date,
       "type": this.type,
+      "amount": this.amount,
+      "account": this.account,
+      "category": this.category,
+      "description": this.description,
     };
   }
 }

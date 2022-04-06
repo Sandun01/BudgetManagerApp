@@ -110,28 +110,53 @@ const deleteTransaction = asyncHandler(async (req, res) => {
 const getDailyTransactions = asyncHandler(async (req, res) => {
   if (req.params) {
     var date = req.params.date;
-    var search_month = parseInt(date.split("-",2)[0]);
-    var search_year = parseInt(date.split("-",2)[1]);
+    var search_month = parseInt(date.split("-", 2)[0]);
+    var search_year = parseInt(date.split("-", 2)[1]);
     console.log(search_year, search_month);
-    
+
     const query1 = { $sort: { date: 1 } };
     const query2 = {
       $project: {
         year: { $year: "$date" },
         month: { $month: "$date" },
         day: { $dayOfMonth: "$date" },
-        _id: "$_id",
-        date: "$date",
-        type: "$type",
-        amount: "$amount",
-        account: "$account",
-        category: "$category",
+        _id: 1,
+        date: 1,
+        type: 1,
+        amount: 1,
+        account: 1,
+        category: 1,
+        description: 1,
       },
     };
     const query3 = {
       $match: { month: search_month, year: search_year },
     };
-    const query4 = {
+    const query5 = {
+      $lookup: {
+        from: "accounts",
+        localField: "account",
+        foreignField: "_id",
+        as: "account",
+      },
+    };
+    const query6 = {
+      $unwind: "$account",
+    };
+    const query7 = {
+      $lookup: {
+        from: "categories",
+        localField: "category",
+        foreignField: "_id",
+        as: "category",
+      },
+    };
+    const query8 = {
+      $unwind: "$category",
+    };
+
+    //---------------------------------------
+    const query9 = {
       $group: {
         _id: {
           day: { $dayOfMonth: "$date" },
@@ -141,13 +166,68 @@ const getDailyTransactions = asyncHandler(async (req, res) => {
         transactions: {
           $push: {
             _id: "$_id",
-            day: "$day",
+            date: "$date",
+            type: "$type",
+            amount: "$amount",
+            account: "$account",
+            category: "$category",
+            description: "$description",
+          },
+        },
+      },
+    };
+
+    await Transaction.aggregate([query1, query2, query3, query5, query6, query7, query8, query9])
+      .then((data) => {
+        res.status(200).send({ success: true, transactions: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(200).send({ success: false, message: error });
+      });
+  } else {
+    res.status(200).send({ success: false, message: "Date Not Found" });
+  }
+});
+
+const getMonthlyTransactions = asyncHandler(async (req, res) => {
+  if (req.params) {
+    var year = parseInt(req.params.year);
+    console.log(year);
+
+    const query1 = { $sort: { date: 1 } };
+    const query2 = {
+      $project: {
+        year: { $year: "$date" },
+        month: { $month: "$date" },
+        day: { $dayOfMonth: "$date" },
+        _id: 1,
+        date: 1,
+        type: 1,
+        amount: 1,
+        account: 1,
+        category: 1,
+        description: 1,
+      },
+    };
+    const query3 = {
+      $match: { year: year },
+    };
+    const query4 = {
+      $group: {
+        _id: {
+          month: { $month: "$date" },
+          year: { $year: "$date" },
+        },
+        transactions: {
+          $push: {
             _id: "$_id",
             date: "$date",
             type: "$type",
             amount: "$amount",
             account: "$account",
             category: "$category",
+            description: "$description",
           },
         },
       },
@@ -164,37 +244,6 @@ const getDailyTransactions = asyncHandler(async (req, res) => {
   } else {
     res.status(200).send({ success: false, message: "Date Not Found" });
   }
-});
-
-const getMonthlyTransactions = asyncHandler(async (req, res) => {
-  const query1 = { $sort: { date: 1 } };
-  const query2 = {
-    $group: {
-      _id: {
-        month: { $month: "$date" },
-        year: { $year: "$date" },
-      },
-      transactions: {
-        $push: {
-          _id: "$_id",
-          date: "$date",
-          type: "$type",
-          amount: "$amount",
-          account: "$account",
-          category: "$category",
-        },
-      },
-    },
-  };
-
-  await Transaction.aggregate([query1, query2])
-    .then((data) => {
-      res.status(200).send({ success: true, transactions: data });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(200).send({ success: false, message: error });
-    });
 });
 
 export default {

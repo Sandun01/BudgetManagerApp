@@ -9,7 +9,7 @@ router
   .get(TransactionController.getAllTransactions);
 
 router.route("/day/:date").get(TransactionController.getDailyTransactions);
-router.route("/month/:date").get(TransactionController.getMonthlyTransactions);
+router.route("/month/:year").get(TransactionController.getMonthlyTransactions);
 router.route("/:id").delete(TransactionController.deleteTransaction);
 
 export default router;
