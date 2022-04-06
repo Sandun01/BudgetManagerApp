@@ -34,11 +34,11 @@ class _DailyTransactionsState extends State<DailyTransactions> {
   List<DailyTransaction> allDailyTransactions = <DailyTransaction>[];
   double totalAmount = 0;
   double totalIncome = 0;
-  double totalExpenses = 0;
+  double totalExpense = 0;
 
   get _initialDate => DateTime.now();
 
-  void getMonthlyTransactions(DateTime date) async {
+  void getDailyTransactions(DateTime date) async {
     String day = date.toString();
     List dateList = day.split("-");
     String month = dateList[1];
@@ -85,7 +85,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
     setState(() {
       totalAmount = total;
       totalIncome = tIncome;
-      totalExpenses = tExpense;
+      totalExpense = tExpense;
     });
   }
 
@@ -95,7 +95,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
     selectedDate = _initialDate;
 
     //get all transactions monthly
-    getMonthlyTransactions(_initialDate!);
+    getDailyTransactions(_initialDate!);
   }
 
   @override
@@ -138,7 +138,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                                 dataLoading = true;
                               });
                               //load transactions
-                              getMonthlyTransactions(selectedDate!);
+                              getDailyTransactions(selectedDate!);
                             }
                           });
                         },
@@ -231,7 +231,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                                           ),
                                         ),
                                         Text(
-                                          "$appCurrencyLabel $totalExpenses",
+                                          "$appCurrencyLabel $totalExpense",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18,

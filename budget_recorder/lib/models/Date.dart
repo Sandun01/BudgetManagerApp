@@ -11,11 +11,4 @@ class Date {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "day": this.day,
-      "month": this.month,
-      "year": this.year,
-    };
-  }
 }

@@ -37,15 +37,4 @@ class Transaction {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "_id": this.transactionID,
-      "date": this.date,
-      "type": this.type,
-      "amount": this.amount,
-      "account": this.account,
-      "category": this.category,
-      "description": this.description,
-    };
-  }
 }

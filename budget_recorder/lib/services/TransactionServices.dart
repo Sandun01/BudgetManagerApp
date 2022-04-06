@@ -11,12 +11,53 @@ class TransactionService {
 
   const TransactionService();
 
-  //get all monthly transactions
+  //get all daily transactions
   //Month and Year format -> "02-2022"
   Future<List?> getAllDailyTransactions(String monthYear) async {
     try {
       List<DailyTransaction> listDailyTransactions = [];
       Response response = await get(Uri.parse("$endpoint/day/$monthYear"));
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          var dataArr = data["transactions"];
+          dataArr.forEach((item) {
+            List<Transaction> listTransactions = [];
+            var transactionsArr = item["transactions"];
+            transactionsArr.forEach((jsonTransaction) {
+              // print(jsonTransaction);
+              jsonTransaction["account"] = Account.fromMap(jsonTransaction["account"]);
+              jsonTransaction["category"] = Category.fromMap(jsonTransaction["category"]);
+              listTransactions
+                  .add(Transaction.fromMap(jsonTransaction));
+            });
+            // print(listTransactions);
+            DailyTransaction dailyTransaction = DailyTransaction(
+                Date.fromMap(item["_id"]), listTransactions);
+            listDailyTransactions.add(dailyTransaction);
+          });
+          // print(listDailyTransactions);
+          return listDailyTransactions;
+        } else {
+          return Future.error('Error 1!');
+        }
+      } else {
+        return Future.error('Error 2!');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Execeptional Error !');
+    }
+  }
+
+  //get all monthly transactions
+  //Month and Year format -> "2022"
+  Future<List?> getAllMonthlyTransactions(String year) async {
+    try {
+      List<DailyTransaction> listDailyTransactions = [];
+      Response response = await get(Uri.parse("$endpoint/month/$year"));
       if (response.statusCode == 200) {
         var jsonData = response.body;
         var data = jsonDecode(jsonData);

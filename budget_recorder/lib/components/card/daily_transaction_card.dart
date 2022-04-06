@@ -1,10 +1,6 @@
-// ignore_for_file: unnecessary_new
-
 import 'package:budget_recorder/models/DailyTransaction.dart';
 import 'package:budget_recorder/models/Transaction.dart';
-import 'package:budget_recorder/screens/transactions/daily_transactions.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 //
 // DailyTransactionCard
@@ -43,10 +39,10 @@ class _DailyTransactionCardState extends State<DailyTransactionCard> {
   }
 
   Widget getTransactionWidgets(List<Transaction> transaction) {
-    return new Column(
+    return Column(
       children: transaction
           .map(
-            (item) => new Column(
+            (item) => Column(
               children: [
                 const SizedBox(
                   height: 15,
@@ -92,10 +88,10 @@ class _DailyTransactionCardState extends State<DailyTransactionCard> {
 
   Widget getMainTransactionWidgets(
       List<DailyTransaction> dailyTransactionsList) {
-    return new Column(
+    return Column(
       children: dailyTransactionsList
           .map(
-            (transaction) => new Card(
+            (transaction) => Card(
               elevation: 6,
               child: Container(
                 width: double.infinity,

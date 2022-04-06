@@ -13,12 +13,4 @@ class Account {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "_id": this.accID,
-      "name": this.name,
-      "amount": this.amount,
-      "description": this.description,
-    };
-  }
 }

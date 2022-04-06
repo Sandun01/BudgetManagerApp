@@ -8,12 +8,4 @@ class Category {
         map['type'].toString(), map['description'].toString());
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "_id": this.cID,
-      "name": this.name,
-      "type": this.type,
-      "description": this.description,
-    };
-  }
 }
