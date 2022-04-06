@@ -7,6 +7,7 @@ import 'package:budget_recorder/screens/app_settings/help.dart';
 import 'package:budget_recorder/screens/categories/manage_category.dart';
 import 'package:budget_recorder/screens/home.dart';
 import 'package:budget_recorder/screens/transactions/manage_transactions.dart';
+import 'package:budget_recorder/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -71,14 +72,14 @@ class _MyAppState extends State<MyApp> {
           ),
           initialRoute: '/',
           routes: {
-            // '/': (context) => Welcome(),
-            '/': (context) => Home(),
-            '/account/manage': (context) => ManageAccounts(),
-            '/account/summary': (context) => AccountSummary(),
-            '/category/manage': (context) => MangeCategoryData(),
-            '/transaction/manage': (context) => ManageTransactions(),
-            '/help': (context) => Help(),
-            '/feedback': (context) => AppFeedback(),
+            '/': (context) => Welcome(),
+            '/home': (context) => const Home(),
+            '/account/manage': (context) => const ManageAccounts(),
+            '/account/summary': (context) => const AccountSummary(),
+            '/category/manage': (context) => const MangeCategoryData(),
+            '/transaction/manage': (context) => const ManageTransactions(),
+            '/help': (context) => const Help(),
+            '/feedback': (context) => const AppFeedback(),
           },
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,

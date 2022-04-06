@@ -7,8 +7,8 @@ class CategoryService {
 
   const CategoryService();
 
+  //Get all categories
   Future<List?> getAllCategories() async {
-    //get all categories
     try {
       List<Category> categoryList = [];
       Response response = await get(Uri.parse(endpoint));
@@ -23,6 +23,68 @@ class CategoryService {
           });
           print(categoryList);
           return categoryList;
+        } else {
+          return Future.error('Error!');
+        }
+      } else {
+        return Future.error('Error!');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Error!');
+    }
+  }
+
+  //Create new category
+  Future<bool?> createCategory(Category categoryData) async {
+    bool createdSuccess = false;
+    try {
+      print(categoryData.name);
+      Response response = await post(
+        Uri.parse(endpoint),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'name': categoryData.name,
+          'type': categoryData.type,
+          'description': categoryData.description,
+        }),
+      );
+      if (response.statusCode == 201) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          createdSuccess = true;
+          return createdSuccess;
+        } else {
+          return Future.error('Error!');
+        }
+      } else {
+        return Future.error('Error!');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Error!');
+    }
+  }
+
+  //delete category
+  Future<bool?> deleteCategory(String id) async {
+    bool deleteSuccess = false;
+    try {
+      print(id);
+      Response response = await delete(
+        Uri.parse(endpoint + id),
+      );
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          deleteSuccess = true;
+          return deleteSuccess;
         } else {
           return Future.error('Error!');
         }

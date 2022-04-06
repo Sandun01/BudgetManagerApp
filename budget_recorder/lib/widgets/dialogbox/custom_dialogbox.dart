@@ -1,15 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogBox extends StatefulWidget {
-  final String title, descriptions, text, route;
+  final String title, descriptions, text, route, btnColor;
+  final Object arguments;
 
-  CustomDialogBox({
+  const CustomDialogBox({
     Key? key,
     required this.title,
     required this.descriptions,
     required this.text,
     required this.route,
+    required this.btnColor,
+    required this.arguments,
   }) : super(key: key);
 
   @override
@@ -37,10 +39,11 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       children: <Widget>[
         Container(
           padding: EdgeInsets.only(
-              left: padding,
-              top: avatarRadius + padding,
-              right: padding,
-              bottom: padding),
+            left: padding,
+            top: avatarRadius + padding,
+            right: padding,
+            bottom: padding,
+          ),
           margin: EdgeInsets.only(top: avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -56,7 +59,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               //progress bar
 
               //end progress bar-------
-
               Text(
                 widget.title,
                 style:
@@ -77,18 +79,27 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 alignment: Alignment.bottomCenter,
                 // ignore: deprecated_member_use
                 child: FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(widget.route);
-                    },
-                    color: Colors.blue[400],
-                    splashColor: Colors.amberAccent,
-                    child: Text(
-                      widget.text,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                      ),
-                    )),
+                  onPressed: () {
+                    widget.route == ""
+                        ? Navigator.pop(context, false) //close dialog box
+                        : Navigator.of(context).pushNamedAndRemoveUntil(
+                            widget.route,
+                            ModalRoute.withName('/home'),
+                            arguments: widget.arguments,
+                          );
+                  },
+                  color: widget.btnColor == ""
+                      ? Colors.green[900]
+                      : Colors.red[900],
+                  splashColor: Colors.amberAccent,
+                  child: Text(
+                    widget.text,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -101,7 +112,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             radius: avatarRadius,
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(avatarRadius)),
-                child: Image.asset("assets/images/welcome_logo_icon.png")),
+                child: Image.asset("assets/images/splash_logo.png")),
           ),
         ),
       ],

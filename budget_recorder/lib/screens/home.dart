@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:budget_recorder/screens/accounts/all_accounts.dart';
 import 'package:budget_recorder/screens/app_settings/settings.dart';
 import 'package:budget_recorder/screens/categories/all_categories.dart';
@@ -35,6 +37,16 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    RouteSettings? rs = ModalRoute.of(context)?.settings;
+
+    if (rs!.arguments != null) {
+      final Map arguments = rs.arguments as Map;
+      int tabIndex = 0;
+      // print(arguments["tabIndex"]);
+      tabIndex = arguments["tabIndex"];
+      _selectedIndex = tabIndex;
+    }
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

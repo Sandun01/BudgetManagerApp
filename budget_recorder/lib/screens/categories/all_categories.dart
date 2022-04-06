@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:budget_recorder/components/card/category_card.dart';
 import 'package:budget_recorder/models/Category.dart';
 import 'package:budget_recorder/services/CategoryService.dart';
+import 'package:budget_recorder/widgets/dialogbox/custom_dialogbox.dart';
 import 'package:budget_recorder/widgets/loaders/dataLoadingIndicator.dart';
 import 'package:budget_recorder/widgets/loaders/noData.dart';
 import 'package:budget_recorder/widgets/text/appbar_title_text.dart';
@@ -51,6 +52,8 @@ class _AllCategoriesState extends State<AllCategories> {
 
   @override
   Widget build(BuildContext context) {
+    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -84,9 +87,10 @@ class _AllCategoriesState extends State<AllCategories> {
                     itemCount: allCategories.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CategoryCard(
+                        id: allCategories[index].cID,
                         name: allCategories[index].name,
                         descriptions: allCategories[index].description,
-                        type: allCategories[index].type,
+                        type: allCategories[index].type, 
                       );
                     },
                   )
