@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:budget_recorder/data/currency_data.dart';
 import 'package:budget_recorder/providers/ThemeProvider.dart';
 import 'package:budget_recorder/services/AccountService.dart';
@@ -13,12 +15,14 @@ class AccountCard extends StatefulWidget {
   final String name, descriptions, id;
   final double balance;
   final AccountService _accountService;
+  final Function callBack;
   const AccountCard({
     Key? key,
     required this.id,
     required this.name,
     required this.descriptions,
     required this.balance,
+    required this.callBack,
   })  : _accountService = const AccountService(),
         super(key: key);
 
@@ -163,7 +167,7 @@ class _AccountCardState extends State<AccountCard> {
                               "name": widget.name,
                               "description": widget.descriptions,
                               "amount": widget.balance,
-                            });
+                            }).then(widget.callBack());
                       },
                       icon: Icon(
                         Icons.settings,
@@ -205,4 +209,5 @@ class _AccountCardState extends State<AccountCard> {
       ),
     );
   }
+
 }

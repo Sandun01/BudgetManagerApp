@@ -98,6 +98,10 @@ class _DailyTransactionsState extends State<DailyTransactions> {
     getDailyTransactions(_initialDate!);
   }
 
+  onGoBack(dynamic value) {
+    getDailyTransactions(_initialDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<ThemeProvider>(context);
@@ -107,7 +111,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, "/transaction/manage");
+          Navigator.pushNamed(context, "/transaction/manage").then(onGoBack);
         },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(

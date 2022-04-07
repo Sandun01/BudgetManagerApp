@@ -49,6 +49,10 @@ class _AllAccountsState extends State<AllAccounts> {
     getAccounts();
   }
 
+  onGoBack(dynamic value) {
+    getAccounts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<ThemeProvider>(context);
@@ -73,8 +77,8 @@ class _AllAccountsState extends State<AllAccounts> {
             ],
             onSelected: (int menu) {
               if (menu == 1) {
-                Navigator.pushNamed(context, "/account/manage");
-              } 
+                Navigator.pushNamed(context, "/account/manage").then(onGoBack);
+              }
               // else if (menu == 2) {
               //   Navigator.pushNamed(context, "/account/summary");
               // }
@@ -101,6 +105,7 @@ class _AllAccountsState extends State<AllAccounts> {
                                   name: allAccounts[index].name,
                                   descriptions: allAccounts[index].description,
                                   balance: allAccounts[index].amount,
+                                  callBack: onGoBack,
                                 ),
                               ),
                             );

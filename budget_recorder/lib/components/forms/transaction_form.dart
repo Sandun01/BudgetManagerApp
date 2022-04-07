@@ -97,18 +97,17 @@ class _TransactionFormState extends State<TransactionForm> {
           (error, stackTrace) => print(error),
         );
   }
-  
+
   @override
   initState() {
     super.initState();
     //get all accounts
     getAccounts();
 
-    if(widget.formType == "Edit"){
+    if (widget.formType == "Edit") {
       String date = widget.transactionDate;
       _dateFormatted = date;
     }
-
   }
 
   //=================Services==========================================================================

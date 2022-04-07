@@ -1,6 +1,6 @@
 Group ID - 2022_REG_31 
 -------------------------------------------------
-Project Name - BudgetRecorderApp
+Project Name - BudgetRecorderApp(BRIEFTASCHE)
 -------------------------------------------------
 Group Details
 --------------------------------------------------

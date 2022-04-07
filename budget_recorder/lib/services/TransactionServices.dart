@@ -95,34 +95,6 @@ class TransactionService {
     }
   }
 
-  //get all transactions
-  // Future<List?> getAllTransactions() async {
-  //   try {
-  //     List<Transaction> transactionsList = [];
-  //     Response response = await get(Uri.parse(endpoint));
-  //     if (response.statusCode == 200) {
-  //       var jsonData = response.body;
-  //       var data = jsonDecode(jsonData);
-
-  //       if (data["success"]) {
-  //         var dataArr = data["transactions"];
-  //         dataArr.forEach((item) {
-  //           transactionsList.add(Transaction.fromMap(item));
-  //         });
-  //         print(transactionsList);
-  //         return transactionsList;
-  //       } else {
-  //         return Future.error('Error 1!');
-  //       }
-  //     } else {
-  //       return Future.error('Error 2!');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return Future.error('Execeptional Error !');
-  //   }
-  // }
-
   //Create new transaction
   Future<bool?> createTransaction(var transaction) async {
     bool createdSuccess = false;
