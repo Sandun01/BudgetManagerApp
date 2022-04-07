@@ -16,7 +16,7 @@ const transactionModel = mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     account: {
       type: mongoose.Schema.Types.ObjectId,

@@ -15,7 +15,7 @@ class TransactionTabsManager extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
@@ -40,14 +40,14 @@ class TransactionTabsManager extends StatelessWidget {
                   ),
                 ),
               ),
-              Tab(
-                child: Text(
-                  'Total',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+              // Tab(
+              //   child: Text(
+              //     'Total',
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           title: const AppBarTitleText(title: 'Transactions'),
@@ -56,7 +56,7 @@ class TransactionTabsManager extends StatelessWidget {
           children: [
             DailyTransactions(),
             MonthlyTransactions(),
-            TotalTransactions(),
+            // TotalTransactions(),
           ],
         ),
       ),

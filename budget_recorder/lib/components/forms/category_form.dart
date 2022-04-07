@@ -85,6 +85,19 @@ class _CategoryFormState extends State<CategoryForm> {
     ).onError(
       (error, stackTrace) {
         print(error);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomDialogBox(
+              title: "Error!",
+              descriptions: "Please Try Again Later.",
+              text: "OK",
+              route: "",
+              arguments: "",
+              btnColor: "Error", //Error
+            );
+          },
+        );
       },
     );
   }
@@ -271,7 +284,8 @@ class _CategoryFormState extends State<CategoryForm> {
                       if (_formKey.currentState!.validate()) {
                         if (widget.formType == "Edit") {
                           editCategory();
-                        } else { //create new
+                        } else {
+                          //create new
                           createNewCategory();
                         }
                       }

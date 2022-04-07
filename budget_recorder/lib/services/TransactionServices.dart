@@ -28,14 +28,15 @@ class TransactionService {
             var transactionsArr = item["transactions"];
             transactionsArr.forEach((jsonTransaction) {
               // print(jsonTransaction);
-              jsonTransaction["account"] = Account.fromMap(jsonTransaction["account"]);
-              jsonTransaction["category"] = Category.fromMap(jsonTransaction["category"]);
-              listTransactions
-                  .add(Transaction.fromMap(jsonTransaction));
+              jsonTransaction["account"] =
+                  Account.fromMap(jsonTransaction["account"]);
+              jsonTransaction["category"] =
+                  Category.fromMap(jsonTransaction["category"]);
+              listTransactions.add(Transaction.fromMap(jsonTransaction));
             });
             // print(listTransactions);
-            DailyTransaction dailyTransaction = DailyTransaction(
-                Date.fromMap(item["_id"]), listTransactions);
+            DailyTransaction dailyTransaction =
+                DailyTransaction(Date.fromMap(item["_id"]), listTransactions);
             listDailyTransactions.add(dailyTransaction);
           });
           // print(listDailyTransactions);
@@ -69,14 +70,15 @@ class TransactionService {
             var transactionsArr = item["transactions"];
             transactionsArr.forEach((jsonTransaction) {
               // print(jsonTransaction);
-              jsonTransaction["account"] = Account.fromMap(jsonTransaction["account"]);
-              jsonTransaction["category"] = Category.fromMap(jsonTransaction["category"]);
-              listTransactions
-                  .add(Transaction.fromMap(jsonTransaction));
+              jsonTransaction["account"] =
+                  Account.fromMap(jsonTransaction["account"]);
+              jsonTransaction["category"] =
+                  Category.fromMap(jsonTransaction["category"]);
+              listTransactions.add(Transaction.fromMap(jsonTransaction));
             });
             // print(listTransactions);
-            DailyTransaction dailyTransaction = DailyTransaction(
-                Date.fromMap(item["_id"]), listTransactions);
+            DailyTransaction dailyTransaction =
+                DailyTransaction(Date.fromMap(item["_id"]), listTransactions);
             listDailyTransactions.add(dailyTransaction);
           });
           // print(listDailyTransactions);
@@ -120,5 +122,142 @@ class TransactionService {
   //     return Future.error('Execeptional Error !');
   //   }
   // }
-  
+
+  //Create new transaction
+  Future<bool?> createTransaction(var transaction) async {
+    bool createdSuccess = false;
+
+    String formattedDate = "";
+    String date = transaction["date"];
+
+    var arr = date.split(' ');
+    var arr2 = arr[1].split('.');
+
+    formattedDate = arr[0] + "T" + arr2[0];
+
+    var formData1 = <String, dynamic>{
+      "date": formattedDate,
+      "type": transaction["type"],
+      "amount": transaction["amount"],
+      "description": transaction["description"],
+      "account": transaction["account"],
+      "category": transaction["category"]
+    };
+    var formData2 = <String, dynamic>{
+      "date": formattedDate,
+      "type": transaction["type"],
+      "amount": transaction["amount"],
+      "account": transaction["account"],
+      "category": transaction["category"]
+    };
+
+    try {
+      Response response = await post(
+        Uri.parse(endpoint),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          transaction["description"] == null ? formData2 : formData1,
+        ),
+      );
+      if (response.statusCode == 201) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          createdSuccess = true;
+          return createdSuccess;
+        } else {
+          return Future.error('Error 1!');
+        }
+      } else {
+        return Future.error('Error 2!');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Exceptional Error!');
+    }
+  }
+
+  //delete transaction
+  Future<bool?> deleteTransaction(Transaction transaction) async {
+    bool deleteSuccess = false;
+    try {
+      String id = transaction.transactionID;
+      var formData = {
+        "type": transaction.type,
+        "amount": transaction.amount,
+        "account": transaction.account.accID,
+      };
+      print(formData);
+      Response response = await post(
+        Uri.parse(endpoint + '/delete/' + id),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(formData),
+      );
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          deleteSuccess = true;
+          return deleteSuccess;
+        } else {
+          return Future.error('Error 1!');
+        }
+      } else {
+        return Future.error('Error 2!');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Exceptional Error!');
+    }
+  }
+
+  //update transaction
+  Future<bool?> updateTransactionData(String id, var transData) async {
+    bool updateSuccess = false;
+    String formattedDate = "";
+    String date = transData["date"];
+
+    var arr = date.split(' ');
+    var arr2 = arr[1].split('.');
+
+    formattedDate = arr[0] + "T" + arr2[0] + ":00";
+
+    var formData = {
+      'date': formattedDate,
+      'description': transData["description"],
+    };
+
+    try {
+      Response response = await patch(
+        Uri.parse(endpoint +"/"+ id),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(formData),
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var jsonData = response.body;
+        var data = jsonDecode(jsonData);
+
+        if (data["success"]) {
+          updateSuccess = true;
+          return updateSuccess;
+        } else {
+          return Future.error('Error! 1');
+        }
+      } else {
+        return Future.error('Error! 2');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error('Exceptional Error!');
+    }
+  }
 }

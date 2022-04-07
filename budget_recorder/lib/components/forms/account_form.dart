@@ -1,3 +1,7 @@
+import 'package:budget_recorder/models/Account.dart';
+import 'package:budget_recorder/models/Category.dart';
+import 'package:budget_recorder/services/AccountService.dart';
+import 'package:budget_recorder/widgets/dialogbox/custom_dialogbox.dart';
 import 'package:flutter/material.dart';
 
 //
@@ -5,15 +9,18 @@ import 'package:flutter/material.dart';
 //
 
 class AccountForm extends StatefulWidget {
-  final String formType, accountDescription, accountName;
+  final String formType, accountID, accountDescription, accountName;
   final double accountBalance;
+  final AccountService _accountService;
   const AccountForm({
     Key? key,
     required this.formType,
     required this.accountDescription,
     required this.accountName,
     required this.accountBalance,
-  }) : super(key: key);
+    required this.accountID,
+  })  : _accountService = const AccountService(),
+        super(key: key);
 
   @override
   State<AccountForm> createState() => _AccountFormState();
@@ -21,6 +28,136 @@ class AccountForm extends StatefulWidget {
 
 class _AccountFormState extends State<AccountForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  Account _account = Account("", "", 0, "");
+
+  //Create new account
+  void createNewAccount() async {
+    //save form fields
+    _formKey.currentState!.save();
+    // print(_account.name);
+
+    await widget._accountService.createAccount(_account).then(
+      (value) {
+        print(value);
+        if (value!) {
+          //if success
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogBox(
+                title: "Success!",
+                descriptions: "Account Created Successfully!",
+                text: "OK",
+                route: "/home",
+                arguments: {
+                  "tabIndex": 2, //category tab
+                },
+                btnColor: "", //Error
+              );
+            },
+          );
+          //reset form
+          _formKey.currentState!.reset();
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogBox(
+                title: "Error!",
+                descriptions: "Please Try Again Later.",
+                text: "OK",
+                route: "",
+                arguments: "",
+                btnColor: "Error", //Error
+              );
+            },
+          );
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        print(error);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomDialogBox(
+              title: "Error!",
+              descriptions: "Please Try Again Later.",
+              text: "OK",
+              route: "",
+              arguments: "",
+              btnColor: "Error", //Error
+            );
+          },
+        );
+      },
+    );
+  }
+
+  //Edit account
+  void editAccount() async {
+    //save form fields
+    _formKey.currentState!.save();
+    // print(_account.name);
+
+    await widget._accountService.updateAccount(_account).then(
+      (value) {
+        print(value);
+        if (value!) {
+          //if success
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogBox(
+                title: "Success!",
+                descriptions: "Account Updated Successfully!",
+                text: "OK",
+                route: "/home",
+                arguments: {
+                  "tabIndex": 2, //category tab
+                },
+                btnColor: "", //Error
+              );
+            },
+          );
+          //reset form
+          _formKey.currentState!.reset();
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogBox(
+                title: "Error!",
+                descriptions: "Please Try Again Later.",
+                text: "OK",
+                route: "",
+                arguments: "",
+                btnColor: "Error", //Error
+              );
+            },
+          );
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        print(error);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomDialogBox(
+              title: "Error!",
+              descriptions: "Please Try Again Later.",
+              text: "OK",
+              route: "",
+              arguments: "",
+              btnColor: "Error", //Error
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +176,8 @@ class _AccountFormState extends State<AccountForm> {
                     height: 10,
                   ),
                   TextFormField(
-                    maxLength: 10,
+                    initialValue: widget.accountName,
+                    maxLength: 20,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -52,43 +190,67 @@ class _AccountFormState extends State<AccountForm> {
                       }
                       return null;
                     },
+                    onSaved: (value) {
+                      _account.setAccName(value!);
+                    },
                   ),
                   const SizedBox(
                     height: 10,
                   ),
 
                   // ===============================================================
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      labelText: 'Amount',
-                    ),
-                    validator: (value) {
-                      try {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Transaction Amount';
-                        } else if (double.parse(value) <= 0) {
-                          return 'Please enter amount grater than 0';
-                        } else if (!RegExp(r'^\d+\.?\d{0,2}$')
-                            .hasMatch(value)) {
-                          return 'Please enter amount to two decimal points';
-                        }
-                      } on Exception catch (_) {
-                        //non numeric values E.g: 0.0.0
-                        return 'Please enter valid Transaction Amount';
-                      }
-                      return null;
-                    },
-                  ),
+                  widget.formType == "Edit"
+                      ? TextFormField(
+                          initialValue: widget.accountBalance.toString(),
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'Account Balance',
+                          ),
+                          enabled: false,
+                        )
+                      : TextFormField(
+                          initialValue: widget.accountBalance.toString(),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'Amount',
+                          ),
+                          validator: (value) {
+                            try {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Transaction Amount';
+                              } else if (double.parse(value) < 0) {
+                                return 'Please enter amount grater than 0';
+                              } else if (!RegExp(
+                                      r'^\-?[0-9]+(?:\.[0-9]{1,2})?$')
+                                  .hasMatch(value)) {
+                                return 'Please enter amount to two decimal points';
+                              }
+                            } on Exception catch (_) {
+                              //non numeric values E.g: 0.0.0
+                              // return 'Please enter valid Transaction Amount';
+                              return null;
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            if (value != null) {
+                              _account.setAccBalance(double.parse(value));
+                            }
+                          },
+                        ),
 
                   const SizedBox(
                     height: 25,
                   ),
                   // ===============================================================
                   TextFormField(
+                    initialValue: widget.accountDescription,
                     keyboardType: TextInputType.multiline,
                     textInputAction: TextInputAction.newline,
                     minLines: 1,
@@ -106,6 +268,9 @@ class _AccountFormState extends State<AccountForm> {
                       }
                       return null;
                     },
+                    onSaved: (value) {
+                      _account.setAccDescription(value!);
+                    },
                   ),
                   const SizedBox(
                     height: 10,
@@ -116,9 +281,20 @@ class _AccountFormState extends State<AccountForm> {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data...')),
-                        );
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   const SnackBar(content: Text('Processing Data...')),
+                        // );
+                        if (_formKey.currentState!.validate()) {
+                          if (widget.formType == "Edit") {
+                            // set account id
+                            _account.setAccID(widget.accountID);
+                            //edit account
+                            editAccount();
+                          } else {
+                            //create new
+                            createNewAccount();
+                          }
+                        }
                       }
                     },
                     style: ButtonStyle(
@@ -135,17 +311,17 @@ class _AccountFormState extends State<AccountForm> {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.save,
                           size: 30,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          'Save',
-                          style: TextStyle(
+                          "${widget.formType == "Add" ? "Save" : "Update"}",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),

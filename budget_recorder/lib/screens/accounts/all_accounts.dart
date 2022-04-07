@@ -66,17 +66,18 @@ class _AllAccountsState extends State<AllAccounts> {
                 child: Text("Add"),
                 value: 1,
               ),
-              const PopupMenuItem(
-                child: Text("Summary"),
-                value: 2,
-              )
+              // const PopupMenuItem(
+              //   child: Text("Summary"),
+              //   value: 2,
+              // )
             ],
             onSelected: (int menu) {
               if (menu == 1) {
                 Navigator.pushNamed(context, "/account/manage");
-              } else if (menu == 2) {
-                Navigator.pushNamed(context, "/account/summary");
-              }
+              } 
+              // else if (menu == 2) {
+              //   Navigator.pushNamed(context, "/account/summary");
+              // }
             },
           ),
         ],
@@ -96,6 +97,7 @@ class _AllAccountsState extends State<AllAccounts> {
                             return SafeArea(
                               child: SingleChildScrollView(
                                 child: AccountCard(
+                                  id: allAccounts[index].accID,
                                   name: allAccounts[index].name,
                                   descriptions: allAccounts[index].description,
                                   balance: allAccounts[index].amount,

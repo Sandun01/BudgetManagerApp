@@ -114,7 +114,6 @@ const getDailyTransactions = asyncHandler(async (req, res) => {
     var search_year = parseInt(date.split("-", 2)[1]);
     console.log(search_year, search_month);
 
-    const query1 = { $sort: { date: 1 } };
     const query2 = {
       $project: {
         year: { $year: "$date" },
@@ -176,6 +175,8 @@ const getDailyTransactions = asyncHandler(async (req, res) => {
       },
     };
 
+    const query1 = { $sort: { "_id": 1 } };
+
     await Transaction.aggregate([
       query2,
       query3,
@@ -203,7 +204,6 @@ const getMonthlyTransactions = asyncHandler(async (req, res) => {
     var search_year = parseInt(req.params.year);
     console.log(search_year);
 
-    const query1 = { $sort: { date: 1 } };
     const query2 = {
       $project: {
         year: { $year: "$date" },
@@ -263,6 +263,8 @@ const getMonthlyTransactions = asyncHandler(async (req, res) => {
       },
     };
 
+    const query1 = { $sort: { "_id": 1 } };
+
     await Transaction.aggregate([
       query2,
       query3,
@@ -285,10 +287,38 @@ const getMonthlyTransactions = asyncHandler(async (req, res) => {
   }
 });
 
+const updateTransaction = asyncHandler(async (req, res) => {
+  if (req.body && req.params) {
+
+    const query = { _id: req.params.id };
+    const update = {
+      date: req.body.date,
+      description: req.body.description,
+    };
+
+    await Transaction.updateOne(query, update)
+      .then((result) => {
+        // console.log(result.modifiedCount);
+        res
+          .status(200)
+          .send({
+            success: true,
+            message: "Transaction Updated Successfully!",
+          });
+      })
+      .catch((error) => {
+        res.status(200).send({ success: false, message: error });
+      });
+  } else {
+    res.status(400).send({ success: false, message: "No Data Found" });
+  }
+});
+
 export default {
   createTransaction,
   getAllTransactions,
   deleteTransaction,
   getDailyTransactions,
   getMonthlyTransactions,
+  updateTransaction,
 };

@@ -1,5 +1,7 @@
 import 'package:budget_recorder/data/currency_data.dart';
 import 'package:budget_recorder/providers/ThemeProvider.dart';
+import 'package:budget_recorder/services/AccountService.dart';
+import 'package:budget_recorder/widgets/dialogbox/custom_dialogbox.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,25 +10,104 @@ import 'package:provider/provider.dart';
 //
 
 class AccountCard extends StatefulWidget {
-  final String name, descriptions;
+  final String name, descriptions, id;
   final double balance;
+  final AccountService _accountService;
   const AccountCard({
     Key? key,
+    required this.id,
     required this.name,
     required this.descriptions,
     required this.balance,
-  }) : super(key: key);
+  })  : _accountService = const AccountService(),
+        super(key: key);
 
   @override
   State<AccountCard> createState() => _AccountCardState();
 }
 
 class _AccountCardState extends State<AccountCard> {
+  String? _selectedItemId;
+
+  void deleteCategory(String id) async {
+    await widget._accountService.deleteAccount(id).then((value) {
+      setState(
+        () {
+          if (value!) {
+            _selectedItemId = "";
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const CustomDialogBox(
+                  title: "Success!",
+                  descriptions: "Deleted Successfully!",
+                  text: "OK",
+                  route: "/home",
+                  arguments: {
+                    "tabIndex": 2, //account tab
+                  },
+                  btnColor: "", //Error
+                );
+              },
+            );
+          } else {
+            _selectedItemId = "";
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const CustomDialogBox(
+                  title: "Error!",
+                  descriptions: "Please Try Again Later.",
+                  text: "OK",
+                  route: "",
+                  arguments: "",
+                  btnColor: "Error", //Error
+                );
+              },
+            );
+          }
+        },
+      );
+    }).onError(
+      (error, stackTrace) {
+        print(error);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<ThemeProvider>(context);
     String appCurrencyName = themeChange.appCurrency;
     String appCurrencyLabel = getLabelByName(appCurrencyName);
+
+    //delete dialog box
+    AlertDialog alert = AlertDialog(
+      title: const Text("Alert!"),
+      content: const Text("Are you sure you want to delete this?"),
+      actions: [
+        ElevatedButton(
+          child: const Text("Delete"),
+          onPressed: () {
+            deleteCategory(_selectedItemId!);
+            Navigator.pop(context, false);
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.red[900]),
+          ),
+        ),
+        ElevatedButton(
+          child: const Text("Cancel"),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.green[900]),
+          ),
+          onPressed: () {
+            _selectedItemId = "";
+            Navigator.pop(context, false);
+          },
+        ),
+      ],
+    );
 
     return Container(
       // color: Theme.of(context).primaryColor,
@@ -76,10 +157,38 @@ class _AccountCardState extends State<AccountCard> {
                     IconButton(
                       onPressed: () {
                         // Navigator.pushNamed(context, "/account/manage");
+                        Navigator.pushNamed(context, "/account/manage",
+                            arguments: {
+                              "id": widget.id,
+                              "name": widget.name,
+                              "description": widget.descriptions,
+                              "amount": widget.balance,
+                            });
                       },
                       icon: Icon(
                         Icons.settings,
                         color: Colors.amber[900],
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    // Delete
+                    IconButton(
+                      onPressed: () {
+                        _selectedItemId = widget.id;
+                        // show the dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.delete_forever,
+                        color: Colors.red[900],
                         size: 30,
                       ),
                     ),
