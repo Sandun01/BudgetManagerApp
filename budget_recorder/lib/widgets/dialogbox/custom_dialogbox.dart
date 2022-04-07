@@ -82,10 +82,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   onPressed: () {
                     widget.route == ""
                         ? Navigator.pop(context, false) //close dialog box
-                        : Navigator.of(context).pushNamed(
-                            widget.route,
-                            arguments: widget.arguments,
-                          );
+                        :
+                        Navigator.of(context).popUntil(ModalRoute.withName(widget.route));
+                        // : Navigator.of(context).pushNamedAndRemoveUntil(
+                        //     widget.route,
+                        //     (Route<dynamic> route) => false,
+                        //     arguments: widget.arguments
+                        //   );
                   },
                   color: widget.btnColor == ""
                       ? Colors.green[900]
