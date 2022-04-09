@@ -12,10 +12,12 @@ class DailyTransactionCard extends StatefulWidget {
   final String appCurrencyLabel;
   final List<DailyTransaction> transactionsList;
   final TransactionService _transactionService;
+  final Function callBackFunction;
   const DailyTransactionCard({
     Key? key,
     required this.appCurrencyLabel,
     required this.transactionsList,
+    required this.callBackFunction,
   })  : _transactionService = const TransactionService(),
         super(key: key);
 
@@ -64,7 +66,7 @@ class _DailyTransactionCardState extends State<DailyTransactionCard> {
                   btnColor: "", //Error
                 );
               },
-            );
+            ).then((value) => widget.callBackFunction(value));
           } else {
             showDialog(
               context: context,
@@ -270,18 +272,18 @@ class _DailyTransactionCardState extends State<DailyTransactionCard> {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pushNamed(
-                        context,
-                        "/transaction/manage",
-                        arguments: {
-                          "id": item.transactionID,
-                          "date": item.date,
-                          "type": item.type,
-                          "amount": item.amount,
-                          "description": item.description,
-                          "account": item.account.name,
-                          "category": item.category.name
-                        },
-                      ),
+                          context, "/transaction/manage",
+                          arguments: {
+                            "id": item.transactionID,
+                            "date": item.date,
+                            "type": item.type,
+                            "amount": item.amount,
+                            "description": item.description,
+                            "account": item.account.name,
+                            "category": item.category.name
+                          }).then((object) {
+                        widget.callBackFunction(object);
+                      }),
                       child: Text(
                         'Edit',
                         style: TextStyle(

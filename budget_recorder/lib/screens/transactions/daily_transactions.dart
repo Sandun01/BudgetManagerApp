@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:budget_recorder/components/card/daily_transaction_card.dart';
 import 'package:budget_recorder/data/currency_data.dart';
 import 'package:budget_recorder/models/DailyTransaction.dart';
@@ -98,7 +96,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
     getDailyTransactions(_initialDate!);
   }
 
-  onGoBack(dynamic value) {
+  void onGoBack(dynamic value) {
     getDailyTransactions(_initialDate);
   }
 
@@ -276,6 +274,7 @@ class _DailyTransactionsState extends State<DailyTransactions> {
                               DailyTransactionCard(
                                 appCurrencyLabel: appCurrencyLabel,
                                 transactionsList: allDailyTransactions,
+                                callBackFunction: onGoBack,
                               ),
                               //space
                               const SizedBox(

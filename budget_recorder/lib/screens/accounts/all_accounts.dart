@@ -49,7 +49,8 @@ class _AllAccountsState extends State<AllAccounts> {
     getAccounts();
   }
 
-  onGoBack(dynamic value) {
+  void onGoBack(dynamic value) {
+    print("onGoBack called");
     getAccounts();
   }
 
@@ -105,7 +106,7 @@ class _AllAccountsState extends State<AllAccounts> {
                                   name: allAccounts[index].name,
                                   descriptions: allAccounts[index].description,
                                   balance: allAccounts[index].amount,
-                                  callBack: onGoBack,
+                                  callBackFunction: onGoBack,
                                 ),
                               ),
                             );

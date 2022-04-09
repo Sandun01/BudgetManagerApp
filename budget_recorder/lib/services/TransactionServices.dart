@@ -105,7 +105,8 @@ class TransactionService {
     var arr = date.split(' ');
     var arr2 = arr[1].split('.');
 
-    formattedDate = arr[0] + "T" + arr2[0];
+    formattedDate = arr[0] + "T" + arr2[0] + "+05.30";
+    print(formattedDate);
 
     var formData1 = <String, dynamic>{
       "date": formattedDate,
@@ -198,16 +199,18 @@ class TransactionService {
     var arr = date.split(' ');
     var arr2 = arr[1].split('.');
 
-    formattedDate = arr[0] + "T" + arr2[0] + ":00";
+    formattedDate = arr[0] + "T" + arr2[0] + ":00+05:30";
 
     var formData = {
       'date': formattedDate,
       'description': transData["description"],
     };
 
+    print(formattedDate);
+
     try {
       Response response = await patch(
-        Uri.parse(endpoint +"/"+ id),
+        Uri.parse(endpoint + "/" + id),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

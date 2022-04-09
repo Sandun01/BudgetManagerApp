@@ -8,6 +8,8 @@ import 'package:budget_recorder/widgets/loaders/dataLoadingIndicator.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
+import 'package:intl/intl.dart';
+
 //
 // Manage Transactions - ADD/EDIT Forms
 //
@@ -105,8 +107,20 @@ class _TransactionFormState extends State<TransactionForm> {
     getAccounts();
 
     if (widget.formType == "Edit") {
-      String date = widget.transactionDate;
-      _dateFormatted = date;
+      String dateUtc = widget.transactionDate;
+      String formattedDate = "";
+
+      var arr1 = dateUtc.split('T');
+      var arr2 = arr1[1].split('.');
+
+      formattedDate = arr1[0] + " " + arr2[0];
+
+      var dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedDate, true);
+      var dateLocal = dateTime.toLocal();
+
+      // print(dateLocal);
+
+      _dateFormatted = dateLocal.toString();
     }
   }
 

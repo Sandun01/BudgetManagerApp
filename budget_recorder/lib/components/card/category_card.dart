@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 class CategoryCard extends StatefulWidget {
   final String name, descriptions, type, id;
   final CategoryService _categoryService;
+  final Function callBackFunction;
   const CategoryCard({
     Key? key,
     required this.id,
     required this.name,
     required this.descriptions,
     required this.type,
+    required this.callBackFunction,
   })  : _categoryService = const CategoryService(),
         super(key: key);
 
@@ -44,7 +46,7 @@ class _CategoryCardState extends State<CategoryCard> {
                   btnColor: "", //Error
                 );
               },
-            );
+            ).then((value) => widget.callBackFunction(value));
           } else {
             _selectedItemId = "";
             showDialog(
@@ -149,7 +151,9 @@ class _CategoryCardState extends State<CategoryCard> {
                             "name": widget.name,
                             "description": widget.descriptions,
                             "type": widget.type,
-                          });
+                          }).then((object) {
+                        widget.callBackFunction(object);
+                      });
                     },
                     icon: Icon(
                       Icons.edit,

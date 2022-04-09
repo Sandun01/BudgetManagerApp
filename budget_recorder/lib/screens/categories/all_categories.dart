@@ -50,7 +50,7 @@ class _AllCategoriesState extends State<AllCategories> {
     getAllCategories();
   }
 
-  onGoBack(dynamic value) {
+  void onGoBack(dynamic value) {
     getAllCategories();
   }
 
@@ -93,6 +93,7 @@ class _AllCategoriesState extends State<AllCategories> {
                         name: allCategories[index].name,
                         descriptions: allCategories[index].description,
                         type: allCategories[index].type,
+                        callBackFunction: onGoBack,
                       );
                     },
                   )

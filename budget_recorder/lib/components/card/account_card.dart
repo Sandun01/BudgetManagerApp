@@ -15,14 +15,14 @@ class AccountCard extends StatefulWidget {
   final String name, descriptions, id;
   final double balance;
   final AccountService _accountService;
-  final Function callBack;
+  final Function callBackFunction;
   const AccountCard({
     Key? key,
     required this.id,
     required this.name,
     required this.descriptions,
     required this.balance,
-    required this.callBack,
+    required this.callBackFunction,
   })  : _accountService = const AccountService(),
         super(key: key);
 
@@ -53,7 +53,7 @@ class _AccountCardState extends State<AccountCard> {
                   btnColor: "", //Error
                 );
               },
-            );
+            ).then((value) => widget.callBackFunction(value));
           } else {
             _selectedItemId = "";
             showDialog(
@@ -167,7 +167,9 @@ class _AccountCardState extends State<AccountCard> {
                               "name": widget.name,
                               "description": widget.descriptions,
                               "amount": widget.balance,
-                            }).then(widget.callBack());
+                            }).then((object) {
+                          widget.callBackFunction(object);
+                        });
                       },
                       icon: Icon(
                         Icons.settings,
@@ -209,5 +211,4 @@ class _AccountCardState extends State<AccountCard> {
       ),
     );
   }
-
 }
