@@ -19,3 +19,18 @@ Member Details:-
 Project Description
 --------------------------------------------------
 As a budget recorder app user i need to be able to record my income and expenses and store them
+
+Trailer
+--------------------------------------------------
+<a href="https://youtu.be/-MCRcobQzV4"></a>
+
+App UI
+--------------------------------------------------
+<img src="ui/7.png" height="600px" width="400px">
+<img src="ui/1.png" height="600px" width="400px">
+<img src="ui/8.png" height="600px" width="400px">
+<img src="ui/6.png" height="600px" width="400px">
+<img src="ui/2.png" height="600px" width="400px">
+<img src="ui/3.png" height="600px" width="400px">
+<img src="ui/4.png" height="600px" width="400px">
+<img src="ui/5.png" height="600px" width="400px">
