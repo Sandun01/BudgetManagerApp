@@ -26,11 +26,9 @@ Trailer
 
 App UI
 --------------------------------------------------
-<img src="UI/7.png" height="600px" width="400px">
-<img src="UI/1.png" height="600px" width="400px">
-<img src="UI/8.png" height="600px" width="400px">
-<img src="UI/6.png" height="600px" width="400px">
-<img src="UI/2.png" height="600px" width="400px">
-<img src="UI/3.png" height="600px" width="400px">
-<img src="UI/4.png" height="600px" width="400px">
-<img src="UI/5.png" height="600px" width="400px">
+| ------------- | ------------- | 
+| <img src="UI/7.png" height="500px" width="300px"> | <img src="UI/1.png" height="500px" width="300px"> |
+| <img src="UI/8.png" height="500px" width="300px"> | <img src="UI/6.png" height="500px" width="300px"> |
+| <img src="UI/2.png" height="500px" width="300px"> | <img src="UI/3.png" height="500px" width="300px"> |
+| <img src="UI/4.png" height="500px" width="300px"> | <img src="UI/5.png" height="500px" width="300px"> |
+
