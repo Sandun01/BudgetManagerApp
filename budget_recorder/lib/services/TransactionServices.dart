@@ -4,10 +4,11 @@ import 'package:budget_recorder/models/Category.dart';
 import 'package:budget_recorder/models/DailyTransaction.dart';
 import 'package:budget_recorder/models/Date.dart';
 import 'package:budget_recorder/models/Transaction.dart';
+import 'package:budget_recorder/services/ServiceConst.dart';
 import 'package:http/http.dart';
 
 class TransactionService {
-  static const String endpoint = "http://10.0.2.2:5000/api/transactions";
+  static const String endpoint = "$Backend_server_URI/api/transactions";
 
   const TransactionService();
 
@@ -105,7 +106,7 @@ class TransactionService {
     var arr = date.split(' ');
     var arr2 = arr[1].split('.');
 
-    formattedDate = arr[0] + "T" + arr2[0] + "+05.30";
+    formattedDate = arr[0] + "T" + arr2[0];
     print(formattedDate);
 
     var formData1 = <String, dynamic>{
@@ -199,7 +200,7 @@ class TransactionService {
     var arr = date.split(' ');
     var arr2 = arr[1].split('.');
 
-    formattedDate = arr[0] + "T" + arr2[0] + ":00+05:30";
+    formattedDate = arr[0] + "T" + arr2[0] + ":00";
 
     var formData = {
       'date': formattedDate,

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:budget_recorder/models/Category.dart';
+import 'package:budget_recorder/services/ServiceConst.dart';
 import 'package:http/http.dart';
 
 class CategoryService {
-  static const String endpoint = "http://10.0.2.2:5000/api/categories/";
+  static const String endpoint = "$Backend_server_URI/api/categories/";
 
   const CategoryService();
 

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:budget_recorder/models/Account.dart';
+import 'package:budget_recorder/services/ServiceConst.dart';
 import 'package:http/http.dart';
 
 class AccountService {
-  static const String endpoint = "http://10.0.2.2:5000/api/accounts/";
+  static const String endpoint = "$Backend_server_URI/api/accounts/";
 
   const AccountService();
 
