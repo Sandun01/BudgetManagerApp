@@ -25,9 +25,11 @@ Technologies
 <p> 
     <a style="padding-right:8px;" href="https://nodejs.org" target="_blank"> <img src="https://img.icons8.com/color/48/000000/nodejs.png"/> </a> 
     <a href="https://www.mongodb.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="48" height="48"/></a>
-    <a href="https://flutter.dev/" target="_blank"> <img src="https://www.fluttericon.com/logo_dart_192px.svg" alt="mongodb" width="48" height="48"/></a> 
-    <a href="https://dart.dev/" target="_blank"> <img src="https://www.scottbrady91.com/img/logos/dart.svg" alt="mongodb" width="48" height="48"/></a> 
+    <a href="https://flutter.dev/" target="_blank"> <img src="https://www.fluttericon.com/logo_dart_192px.svg" alt="flutter" width="48" height="48"/></a> 
+    <a href="https://developer.android.com/" target="_blank"> <img src="https://thetechportal.com/wp-content/uploads/2020/02/android-logo.jpg" alt="android" width="48" height="48"/></a> 
+    <a href="https://developer.apple.com/" target="_blank"> <img src="https://www.codzbee.com/assets/images/ios-app.png" alt="ios" width="48" height="48"/></a> 
 </p>
+
 
 Trailer
 --------------------------------------------------
