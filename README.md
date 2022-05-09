@@ -34,6 +34,7 @@ Technologies
 Trailer
 --------------------------------------------------
 [App Trailer](https://youtu.be/-MCRcobQzV4)
+[How to use the app](https://www.youtube.com/watch?v=gfiGeONCLrs)
 
 App UI
 --------------------------------------------------                                                  
