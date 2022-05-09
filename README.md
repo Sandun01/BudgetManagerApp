@@ -27,7 +27,7 @@ Technologies
     <a href="https://www.mongodb.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="48" height="48"/></a>
     <a href="https://flutter.dev/" target="_blank"> <img src="https://www.fluttericon.com/logo_dart_192px.svg" alt="flutter" width="48" height="48"/></a> 
     <a href="https://developer.android.com/" target="_blank"> <img src="https://thetechportal.com/wp-content/uploads/2020/02/android-logo.jpg" alt="android" width="70" height="48"/></a> 
-    <a href="https://developer.apple.com/" target="_blank"> <img src="https://www.codzbee.com/assets/images/ios-app.png" alt="ios" width="70" height="48"/></a> 
+    <a href="https://developer.apple.com/" target="_blank"> <img src="https://img.favpng.com/23/9/21/apple-icon-image-format-computer-icons-ios-desktop-wallpaper-png-favpng-upTJChQBh0A2UfZmfLn4ZFtGU.jpg" alt="ios" width="70" height="48"/></a> 
 </p>
 
 
